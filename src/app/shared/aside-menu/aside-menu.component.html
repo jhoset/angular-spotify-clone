@@ -1,0 +1,31 @@
+<nav class="flex flex-col flex-1 gap-2">
+  <div class="bg-zinc-900 rounded-lg p-2">
+    <ul>
+      <app-side-menu-item href="/">
+        <svg-icon name="home"/>
+        Home
+      </app-side-menu-item>
+      <app-side-menu-item href="/">
+        <svg-icon name="search"/>
+        Search
+      </app-side-menu-item>
+    </ul>
+  </div>
+  <div class="bg-zinc-900 rounded-lg p-2 flex-1">
+    <ul>
+      <app-side-menu-item href="/">
+        <svg-icon name="library"/>
+        Your Library
+      </app-side-menu-item>
+
+
+      @for (playlist of spotifyPlayLists(); track playlist.id) {
+        <app-side-menu-card [playList]="playlist"/>
+      } @empty {
+        <p> No records available </p>
+      }
+
+    </ul>
+  </div>
+</nav>
+

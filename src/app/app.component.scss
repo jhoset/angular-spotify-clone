@@ -1,0 +1,8 @@
+#app {
+  display: grid;
+  grid-template-areas:
+      "aside-menu main track-info"
+      "player player player";
+  grid-template-columns: 350px 1fr 350px;
+  grid-template-rows: 1fr auto;
+}

@@ -1,0 +1,22 @@
+<a class="playlist-item flex relative p-2 overflow-hidden items-center gap-4 rounded-md hover:bg-zinc-500 "
+   [href]="'/playlist/'+ playList().id">
+  <picture class="h-12 w-12 flex-none">
+    @if (playList().images) {
+      <img class="object-cover w-full h-full rounded-md"
+           [src]="playList().images[0].url"
+           alt="playlist image">
+    } @else {
+      <div class="w-full h-full rounded-md bg-[#262626] flex items-center justify-center">
+        <img [src]="'assets/icons/default-playlist-img.svg'"
+             alt="playlist image">
+      </div>
+    }
+  </picture>
+  <div class="flex flex-auto flex-col truncate">
+    <h4 class="text-[#FDFDFD]"> {{ playList().name }} </h4>
+    <span class="text-sm text-[#A4A4A4]">
+      {{ playList().owner.display_name }}
+    </span>
+  </div>
+
+</a>

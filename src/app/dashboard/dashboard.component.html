@@ -1,0 +1,22 @@
+<p>pages works!</p>
+<aside class="[grid-area:aside-menu] flex flex-col overflow-y-auto">
+  <app-aside-menu class="flex h-full"/>
+</aside>
+<main class="[grid-area:main] flex flex-col rounded-lg overflow-y-auto  bg-[#121212]">
+  <div id="playlist-container"
+       class="relative transition-all duration-1000 bg-green-600">
+    <!-- PAGE HEADER -->
+    <div class="relative z-10 px-6">
+      <!-- <app-greetings /> -->
+      <h1 class="text-4xl"> Good morning! </h1>
+      <div>h</div>
+    </div>
+    <router-outlet></router-outlet>
+  </div>
+</main>
+<aside class="[grid-area:track-info] flex flex-col overflow-y-auto bg-[#121212]">
+  TRACK-INFO
+</aside>
+<footer class="[grid-area:player] min-h-[100px] bg-red-500">
+
+</footer>
