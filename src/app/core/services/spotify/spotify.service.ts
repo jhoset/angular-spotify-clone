@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {map, Observable} from "rxjs";
-import {SpotifyPlaylistResponse} from "./interfaces";
+import {map} from "rxjs";
+import {SpotifyPlaylist} from "@core/services/spotify/interfaces/spotify";
 
 const COLORS: { [key: string]: any } = {
   red: {accent: "#da2735", dark: "#7f1d1d"},
@@ -34,7 +34,7 @@ export class SpotifyService {
     return this.http.get<SpotifyPlaylistResponse>('https://api.spotify.com/v1/me/playlists', {params})
       .pipe(
         map(response => {
-          response.items.forEach((playList) => {
+          response.items.forEach((playList: SpotifyPlaylist) => {
             const randomIndex = Math.floor(Math.random() * COLOR_KEYS.length);
             const colorKey = COLOR_KEYS[randomIndex];
             playList.primary_color = COLORS[colorKey];
