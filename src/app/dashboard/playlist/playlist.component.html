@@ -1,1 +1,65 @@
-<p>playlist works!</p>
+<div id="playlist-container"
+     class="relative flex flex-col h-full bg-zinc-800 overflow-x-hidden"
+     [style.view-transition-name]="'pl-box-' + playlistId()">
+  <header class="flex flex-row items-center gap-4 px-6 mt-10">
+    @if (currentPlaylist()) {
+      <picture class="aspect-square w-44 h-44 flex-none">
+        @if (currentPlaylist()!.images) {
+          <img class="object-cover w-full h-full rounded-md shadow-lg"
+               [src]="currentPlaylist()!.images[0].url"
+               [style.view-transition-name]="'pl-img-' + currentPlaylist()!.id"
+               alt="playlist image">
+        } @else {
+          <div class="w-full h-full rounded-md bg-[#262626] flex items-center justify-center shadow-lg">
+            <img [src]="'assets/icons/default-playlist-img.svg'"
+                 alt="playlist image"
+                 [style.view-transition-name]="'pl-img-' + currentPlaylist()!.id">
+          </div>
+        }
+      </picture>
+      <div class="flex flex-col px-2 min-w-[500px]">
+        <h2 class="flex flex-1 items-end">Playlist</h2>
+        <h1 class="text-white text-7xl font-bold leading-normal whitespace-nowrap truncate overflow-hidden">
+          {{ currentPlaylist()!.name }}
+          <span [style.view-transition-name]="'pl-title-' + currentPlaylist()!.id"></span>
+        </h1>
+        <p class="line-clamp-1 text-[#ffffffb3] text-sm"
+           [innerHTML]="sanitizer.bypassSecurityTrustHtml(currentPlaylist()!.description!)">
+        </p>
+        <div class="flex-1 flex gap-2 items-end mt-2">
+          <div class="flex items-center gap-1 text-sm text-white">
+            @if (ownerProfile()?.images) {
+              <picture class="aspect-auto w-6 h-6 rounded-full">
+                <img class="object-cover w-full h-full rounded-full" [src]="ownerProfile()!.images[0].url"
+                     alt="owner profile">
+              </picture>
+            }
+            <span [style.view-transition-name]="'pl-owner-' + currentPlaylist()!.id">
+              <span class="font-bold">
+                {{ currentPlaylist()!.owner.display_name }}
+              </span>
+              • {{ ownerProfile() ? (ownerProfile()!.followers.total | number) : '-' }} followers
+              • {{ currentPlaylist()!.tracks.total }} songs
+            </span>
+          </div>
+        </div>
+
+      </div>
+    }
+
+
+  </header>
+  <div class="relative z-10 px-6 pt-10">
+    <!-- <app-greetings /> -->
+    <div class="flex flex-wrap mt-6 gap-4">
+      @for (item of playlistItems(); track item.track.id) {
+        <!--        <app-playlist-item-card [playlist]="playlist"/>-->
+      } @empty {
+        <p>No records available</p>
+      }
+    </div>
+
+  </div>
+
+  <div class="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/80 -z-10"></div>
+</div>

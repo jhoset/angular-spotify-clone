@@ -1,0 +1,26 @@
+<a class="playlist-item transition-all duration-300 flex relative p-2 overflow-hidden gap-4
+          rounded-md hover:bg-zinc-800 shadow-lg hover:shadow-xl bg-zinc-500/30 w-44 flex-col"
+   [routerLink]="'/playlist/'+ playlist().id"
+   [style.view-transition-name]="'pl-box-' + playlist().id">
+  <picture class="aspect-square w-full h-full flex-none">
+    @if (playlist().images) {
+      <img class="object-cover w-full h-full rounded-md"
+           [src]="playlist().images[0].url"
+           [style.view-transition-name]="'pl-img-' + playlist().id"
+           alt="playlist image">
+    } @else {
+      <div class="w-full h-full rounded-md bg-[#262626] flex items-center justify-center">
+        <img [src]="'assets/icons/default-playlist-img.svg'"
+             alt="playlist image"
+             [style.view-transition-name]="'pl-img-' + playlist().id">
+      </div>
+    }
+  </picture>
+  <div class="flex flex-auto flex-col px-2">
+    <h4 class="text-[#FDFDFD]" [style.view-transition-name]="'pl-title-' + playlist().id"> {{ playlist().name }} </h4>
+    <span class="text-sm text-[#A4A4A4]" [style.view-transition-name]="'pl-owner-' + playlist().id">
+      {{ playlist().owner.display_name }}
+    </span>
+  </div>
+
+</a>

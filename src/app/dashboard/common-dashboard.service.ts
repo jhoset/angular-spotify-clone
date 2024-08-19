@@ -1,19 +1,29 @@
-import {inject, Injectable, signal} from '@angular/core';
-import {SpotifyPlaylist} from "@core/services/spotify/interfaces/spotify";
-import {SpotifyService} from "@core/services/spotify/spotify.service";
+import {computed, inject, Injectable, signal} from '@angular/core';
+import {PlaylistsService} from "@core/services/playlists/playlists.service";
+import {SpotifyPlaylist} from "@core/services/playlists/interfaces";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommonDashboardService {
-  private spotifyService: SpotifyService = inject(SpotifyService);
+  private playlistsService: PlaylistsService = inject(PlaylistsService);
 
-  public spotifyPlayLists = signal<SpotifyPlaylist[]>([])
+  public spotifyPlaylists = signal<SpotifyPlaylist[]>([])
+  public topSixPlaylists = computed(() => {
+    if (this.spotifyPlaylists().length > 6) {
+      return this.spotifyPlaylists().slice(0, 6);
+    }
+    return this.spotifyPlaylists();
+  })
 
   constructor() {
-    this.spotifyService.getCurrentUserPlaylists().subscribe(rs => {
+    this.playlistsService.getCurrentUserPlaylists().subscribe(rs => {
       console.log('>>> Playlists retrieved!')
-      this.spotifyPlayLists.set(rs.items);
+      this.spotifyPlaylists.set(rs.items);
     })
+  }
+
+  public getCachedPlaylistById(id: string) {
+    return this.spotifyPlaylists().find(pl => pl.id == id);
   }
 }

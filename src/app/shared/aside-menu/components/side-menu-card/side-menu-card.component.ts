@@ -1,5 +1,5 @@
 import {Component, input} from '@angular/core';
-import {SpotifyPlaylist} from "@core/services/spotify/interfaces/spotify";
+import {SpotifyPlaylist} from "@core/services/playlists/interfaces";
 
 @Component({
   selector: 'app-side-menu-card',
@@ -8,6 +8,6 @@ import {SpotifyPlaylist} from "@core/services/spotify/interfaces/spotify";
   templateUrl: './side-menu-card.component.html',
 })
 export class SideMenuCardComponent {
-  public playList= input.required<SpotifyPlaylist>()
+  public playlist= input.required<SpotifyPlaylist>()
 
 }

@@ -1,9 +1,9 @@
-<a class="playlist-item flex relative p-2 overflow-hidden items-center gap-4 rounded-md hover:bg-zinc-500 "
-   [href]="'/playlist/'+ playList().id">
+<a class="playlist-item flex relative p-2 overflow-hidden items-center gap-4 rounded-md hover:bg-zinc-800 "
+   [href]="'/playlist/'+ playlist().id">
   <picture class="h-12 w-12 flex-none">
-    @if (playList().images) {
+    @if (playlist().images) {
       <img class="object-cover w-full h-full rounded-md"
-           [src]="playList().images[0].url"
+           [src]="playlist().images[0].url"
            alt="playlist image">
     } @else {
       <div class="w-full h-full rounded-md bg-[#262626] flex items-center justify-center">
@@ -13,9 +13,9 @@
     }
   </picture>
   <div class="flex flex-auto flex-col truncate">
-    <h4 class="text-[#FDFDFD]"> {{ playList().name }} </h4>
+    <h4 class="text-[#FDFDFD]"> {{ playlist().name }} </h4>
     <span class="text-sm text-[#A4A4A4]">
-      {{ playList().owner.display_name }}
+      {{ playlist().owner.display_name }}
     </span>
   </div>
 
