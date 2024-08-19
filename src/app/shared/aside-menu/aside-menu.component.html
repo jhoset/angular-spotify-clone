@@ -19,7 +19,7 @@
       </app-side-menu-item>
 
 
-      @for (playlist of spotifyPlayLists(); track playlist.id) {
+      @for (playlist of commonService.spotifyPlayLists(); track playlist.id) {
         <app-side-menu-card [playList]="playlist"/>
       } @empty {
         <p> No records available </p>
