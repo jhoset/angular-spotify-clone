@@ -1,0 +1,7 @@
+<div class="card-play-button rounded-full bg-green-500 p-4" (click)="onChangePlayerStatus()">
+  @if (isPlayingPlaylist()) {
+    <svg-icon name="pause"/>
+  } @else {
+    <svg-icon name="play"/>
+  }
+</div>

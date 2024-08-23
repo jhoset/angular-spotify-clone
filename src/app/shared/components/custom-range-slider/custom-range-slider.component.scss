@@ -1,0 +1,85 @@
+
+.container {
+  --progress-color: #ffffff;
+  --track-color: #4D4D4D;
+  --thumb-bg-color: #ffffff;
+  --thumb-border-color: #c4c4c4;
+  //padding: 1px 0;
+  border-radius: 15px;
+  background-color: #000000;
+}
+
+input[type="range"] {
+  /* removing default appearance */
+  -webkit-appearance: none;
+  appearance: none;
+  /* creating a custom design */
+  width: 100%;
+  outline: none;
+  border-radius: 15px;
+  height: 6px;
+  transition: .3s ease-in-out;
+  &:hover {
+    --progress-color: #1DB954;
+  }
+  border: 1px solid #000000;
+}
+
+/* Thumb: webkit */
+input[type="range"]::-webkit-slider-thumb {
+  opacity: 0;
+  /* removing default appearance */
+  -webkit-appearance: none;
+  appearance: none;
+  /* creating a custom design */
+  height: 11px;
+  width: 11px;
+  background-color: var(--thumb-bg-color);
+  border: 1px solid var(--thumb-border-color);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+input[type="range"]:hover::-webkit-slider-thumb {
+  opacity: 100%;
+}
+
+/* Thumb: Firefox */
+input[type="range"]::-moz-range-thumb {
+  opacity: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 11px;
+  width: 11px;
+  background-color: var(--thumb-bg-color);
+  border: 1px solid var(--thumb-border-color);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+input[type="range"]:hover::-moz-range-thumb {
+  opacity: 100%;
+}
+
+/* Hover, active & focus Thumb: Webkit */
+input[type="range"]::-webkit-slider-thumb:hover {
+  box-shadow: 0 0 0 5px rgba(147, 147, 147, 0.2)
+}
+
+/* Hover, active & focus Thumb: Firefox */
+input[type="range"]::-moz-range-thumb:hover {
+  box-shadow: 0 0 0 5px rgba(147, 147, 147, 0.2)
+}
+
+input[type="range"]:disabled {
+  cursor: not-allowed;
+  --progress-color: #ffffff;
+}
+input[type="range"]:disabled::-webkit-slider-thumb {
+  opacity: 0;
+  cursor: not-allowed;
+}
+input[type="range"]:disabled::-moz-range-thumb {
+  opacity: 0;
+  cursor: not-allowed;
+}

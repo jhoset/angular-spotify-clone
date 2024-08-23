@@ -1,9 +1,9 @@
 import {Component, inject} from '@angular/core';
 import {NgOptimizedImage} from "@angular/common";
 import {SvgIconComponent} from "angular-svg-icon";
-import {SideMenuItemComponent} from "@shared/aside-menu/components/side-menu-item/side-menu-item.component";
-import {SideMenuCardComponent} from "@shared/aside-menu/components/side-menu-card/side-menu-card.component";
-import {CommonDashboardService} from "../../dashboard/common-dashboard.service";
+import {SideMenuItemComponent} from "@shared/components/aside-menu/components/side-menu-item/side-menu-item.component";
+import {SideMenuCardComponent} from "@shared/components/aside-menu/components/side-menu-card/side-menu-card.component";
+import {DashboardService} from "../../../dashboard/dashboard.service";
 
 @Component({
   selector: 'app-aside-menu',
@@ -18,5 +18,7 @@ import {CommonDashboardService} from "../../dashboard/common-dashboard.service";
   styleUrl: './aside-menu.component.scss'
 })
 export class AsideMenuComponent {
-  public commonService = inject(CommonDashboardService);
+  public dashboardService = inject(DashboardService);
+  //? SIGNALS
+  public playlists = this.dashboardService.playlists;
 }

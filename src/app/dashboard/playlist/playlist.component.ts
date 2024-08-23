@@ -1,12 +1,17 @@
-import {Component, computed, effect, inject, signal} from '@angular/core';
+import {Component, computed, effect, inject, OnInit, signal} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {toSignal} from "@angular/core/rxjs-interop";
-import {map} from "rxjs";
+import {takeUntilDestroyed, toSignal} from "@angular/core/rxjs-interop";
+import {map, tap} from "rxjs";
 import {PlaylistItemCardComponent} from "../home/components/playlist-item-card/playlist-item-card.component";
-import {CommonDashboardService} from "../common-dashboard.service";
+import {DashboardService, PlaylistTrack} from "../dashboard.service";
 import {DomSanitizer} from "@angular/platform-browser";
 import {PlaylistsService} from "@core/services/playlists/playlists.service";
-import {SpotifyPlaylist, SpotifyPlaylistImageResponse, SpotifyPlaylistItem} from "@core/services/playlists/interfaces";
+import {
+  SpotifyPlaylist,
+  SpotifyPlaylistImageResponse,
+  SpotifyPlaylistItem,
+  SpotifyPlaylistTrackResponse
+} from "@core/services/playlists/interfaces";
 import {SpotifyUserProfile} from "@core/services/users/interfaces";
 import {UsersService} from "@core/services/users/users.service";
 import {DecimalPipe} from "@angular/common";
@@ -26,25 +31,38 @@ export class PlaylistComponent {
   private playlistsService: PlaylistsService = inject(PlaylistsService);
   private usersService: UsersService = inject(UsersService);
   private route = inject(ActivatedRoute);
-  public commonService = inject(CommonDashboardService);
+  public dashboardService = inject(DashboardService);
+  //? SIGNALS
   public playlistId = toSignal(this.route.params.pipe(map(p => p['id'])));
-  public playlistItems = signal<SpotifyPlaylistItem[]>([]);
-  public ownerProfile = signal<SpotifyUserProfile | undefined>(undefined);
-  public currentPlaylist = computed<SpotifyPlaylist | undefined>(() => {
-    console.log('getting current pl', this.playlistId())
-    return this.commonService.spotifyPlaylists().find(pl => pl.id === this.playlistId())
-  });
+  public currentPlaylistTracks = this.dashboardService.currentPlaylistTracks;
+  public currentPlaylist = this.dashboardService.currentPlaylist;
+  public owner = signal<SpotifyUserProfile | undefined>(undefined);
 
   constructor() {
+    this.playlistsService.getPlaylistTracks(this.playlistId()).pipe(
+      map(rs => this.filterResponseData(rs)),
+      takeUntilDestroyed()
+    ).subscribe(rs => this.dashboardService.setCurrentPlaylistTracks(rs));
+
     effect(() => {
-      console.log('>>> Loading pl items!!')
-      this.playlistsService.getPlaylistTracks(this.playlistId()).subscribe(rs => {
-        this.playlistItems.set(rs.items);
-      })
-      this.usersService.getUserProfile(this.currentPlaylist()?.owner.id!).subscribe(rs => {
-        this.ownerProfile.set(rs);
+      if (!this.currentPlaylist()) return;
+      this.usersService.getUserProfile(this.currentPlaylist()!.owner.id!).subscribe(rs => {
+        this.owner.set(rs);
       })
     });
+  }
+
+  private filterResponseData(data: SpotifyPlaylistTrackResponse): PlaylistTrack[] {
+    return data.items.map((item) => {
+      return {
+        playlistId: this.playlistId(),
+        artists: item.track.artists.map(a => a.name),
+        name: item.track.name,
+        imageUrl: item.track.album.images ? (item.track.album.images[0].url || item.track.album.images[1].url) : '',
+        previewUrl: item.track.preview_url ?? '',
+        trackId: item.track.id,
+      }
+    })
   }
 
 }

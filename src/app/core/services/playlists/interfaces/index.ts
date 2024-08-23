@@ -116,6 +116,7 @@ export interface SpotifyPlaylistItem {
   primary_color: string | null;
   track: SpotifyTrack;
   video_thumbnail: { url: string | null };
+  playlistId?: string;
 }
 
 export interface SpotifyPlaylistTrackResponse {

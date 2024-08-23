@@ -1,13 +1,15 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterOutlet} from "@angular/router";
-import {AsideMenuComponent} from "@shared/aside-menu/aside-menu.component";
+import {AsideMenuComponent} from "@shared/components/aside-menu/aside-menu.component";
+import {PlayerComponent} from "@shared/components/player/player.component";
 
 @Component({
   selector: 'app-pages',
   standalone: true,
   imports: [
     RouterOutlet,
-    AsideMenuComponent
+    AsideMenuComponent,
+    PlayerComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'

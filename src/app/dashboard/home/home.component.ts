@@ -1,18 +1,22 @@
 import {Component, inject} from '@angular/core';
-import {CommonDashboardService} from "../common-dashboard.service";
+import {DashboardService} from "../dashboard.service";
 import {PlaylistItemCardComponent} from "./components/playlist-item-card/playlist-item-card.component";
 import {RouterOutlet} from "@angular/router";
+import {GreetingComponent} from "./components/greeting/greeting.component";
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
     PlaylistItemCardComponent,
-    RouterOutlet
+    RouterOutlet,
+    GreetingComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-  public commonService = inject(CommonDashboardService);
+  private dashboardService = inject(DashboardService);
+  //? SIGNALS
+  public topSixPlaylists = this.dashboardService.topSixPlaylists;
 }

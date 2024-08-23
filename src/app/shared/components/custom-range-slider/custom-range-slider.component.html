@@ -1,0 +1,12 @@
+<div class="container flex flex-col items-center" [ngClass]="customClass()">
+  <input #range
+         type="range"
+         (input)="onSliderChange($event)"
+         (mousedown)="onMousedown($event)"
+         (mouseup)="onMouseup($event)"
+         [value]="value()"
+         [min]="min()"
+         [max]="max()"
+         [step]="step()"
+         class="w-full"/>
+</div>

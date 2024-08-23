@@ -2,10 +2,9 @@
      class="relative transition-all duration-1000 bg-green-600">
   <!-- PAGE HEADER -->
   <div class="relative z-10 px-6 pt-10">
-    <!-- <app-greetings /> -->
-    <h1 class="text-4xl pt-4"> Good morning! </h1>
+    <app-greeting/>
     <div class="flex flex-wrap mt-6 gap-4">
-      @for (playlist of commonService.topSixPlaylists(); track playlist.id) {
+      @for (playlist of topSixPlaylists(); track playlist.id) {
         <app-playlist-item-card [playlist]="playlist"/>
       } @empty {
         <p>No records available</p>
@@ -14,7 +13,5 @@
 
   </div>
 
-  <div class="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/80">
-
-  </div>
+  <div class="absolute inset-0 bg-gradient-to-t from-[#121212] via-zinc-900/80"></div>
 </div>

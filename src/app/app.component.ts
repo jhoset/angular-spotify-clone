@@ -19,5 +19,13 @@ export class AppComponent {
     this._iconRegistry.addSvgIcon('play');
     this._iconRegistry.addSvgIcon('search');
     this._iconRegistry.addSvgIcon('time');
+    this._iconRegistry.addSvgIcon('high-volume');
+    this._iconRegistry.addSvgIcon('medium-volume');
+    this._iconRegistry.addSvgIcon('low-volume');
+    this._iconRegistry.addSvgIcon('zero-volume');
+    this._iconRegistry.addSvgIcon('now-playing');
+    this._iconRegistry.addSvgIcon('connect-device');
+    this._iconRegistry.addSvgIcon('queue');
+    this._iconRegistry.addSvgIcon('full-screen');
   }
 }

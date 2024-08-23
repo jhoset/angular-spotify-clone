@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {map} from "rxjs";
+import {lastValueFrom, map} from "rxjs";
 import {
   SpotifyFeaturedPlaylistResponse,
   SpotifyPlaylist, SpotifyPlaylistImageResponse,
@@ -31,8 +31,8 @@ export class PlaylistsService {
 
   getCurrentUserPlaylists(limit: number = 20, offset: number = 0) {
     let params = new HttpParams();
-    params.set('limit', limit.toString());
-    params.set('offset', offset.toString());
+    params = params.set('limit', limit.toString());
+    params = params.set('offset', offset.toString());
 
     // @ts-ignore
     return this.http.get<SpotifyPlaylistResponse>('https://api.spotify.com/v1/me/playlists', {params})
@@ -50,8 +50,8 @@ export class PlaylistsService {
 
   getFeaturedPlaylists(limit: number = 20, offset: number = 0, locale?: string) {
     let params = new HttpParams();
-    params.set('limit', limit.toString());
-    params.set('offset', offset.toString());
+    params = params.set('limit', limit.toString());
+    params = params.set('offset', offset.toString());
     if (locale) {
       params = params.set('locale', locale);
     }
@@ -71,12 +71,23 @@ export class PlaylistsService {
 
   getPlaylistTracks(playlistId: string, limit: number = 20, offset: number = 0) {
     let params = new HttpParams();
-    params.set('limit', limit.toString());
-    params.set('offset', offset.toString());
+    params = params.set('limit', limit);
+    params = params.set('offset', offset);
 
     const url = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
 
-    return this.http.get<SpotifyPlaylistTrackResponse>(url, {params});
+    return this.http.get<SpotifyPlaylistTrackResponse>(url, {params: params}).pipe(
+      map(res => {
+        res.items.forEach(item => item.playlistId = playlistId)
+        res.items.map(async item => {
+          if (!item.track.preview_url) {
+            item.track.preview_url = await lastValueFrom(this.getPreviewUrl(item.track.id));
+          }
+        })
+        res.items = res.items.filter(item => item.track.preview_url?.length);
+        return res;
+      })
+    );
   }
 
   getPlaylistCoverImage(playlistId: string) {
@@ -87,6 +98,11 @@ export class PlaylistsService {
       }
       return null;
     }));
+  }
+
+  getPreviewUrl(trackId: string) {
+    const url = `http://localhost:3000/api/track-preview/${trackId}`;
+    return this.http.get(url, {responseType: 'text'});
   }
 
 

@@ -1,5 +1,5 @@
 <a class="playlist-item flex relative p-2 overflow-hidden items-center gap-4 rounded-md hover:bg-zinc-800 "
-   [href]="'/playlist/'+ playlist().id">
+   (click)="goToPlaylistView(playlist().id)">
   <picture class="h-12 w-12 flex-none">
     @if (playlist().images) {
       <img class="object-cover w-full h-full rounded-md"

@@ -1,0 +1,20 @@
+<div class="flex justify-end items-center gap-x-2">
+
+  <button class="opacity-70 hover:opacity-100" [title]="!playerVolume() ? 'Unmute': 'Mute'"
+          (click)="onSwitchVolume()">
+    <svg-icon [ngClass]="(playerVolume() == 0) ? 'inline' : 'hidden'"
+              name="zero-volume"/>
+    <svg-icon [ngClass]="(playerVolume() > 0 && playerVolume() < 0.3) ? 'inline' : 'hidden'"
+              name="low-volume"/>
+    <svg-icon [ngClass]="(playerVolume() >= 0.3 && playerVolume() < 0.7) ? 'inline' : 'hidden'"
+              name="medium-volume"/>
+    <svg-icon [ngClass]="(playerVolume() >= 0.7) ? 'inline' : 'hidden'"
+              name="high-volume"/>
+  </button>
+  <app-custom-range-slider [min]="0"
+                           [customClass]="'w-[100px]'"
+                           [value]="playerVolume()*100"
+                           [max]="100"
+                           (onInputChange)="onVolumeChange($event)">
+  </app-custom-range-slider>
+</div>
