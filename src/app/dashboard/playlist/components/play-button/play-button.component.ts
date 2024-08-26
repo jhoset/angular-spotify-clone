@@ -1,6 +1,6 @@
-import {Component, computed, inject, input, signal} from '@angular/core';
+import {Component, computed, inject, input} from '@angular/core';
 import {SvgIconComponent} from "angular-svg-icon";
-import {DashboardService, PlaylistTrack} from "../../../dashboard.service";
+import {DashboardService} from "../../../dashboard.service";
 
 @Component({
   selector: 'app-play-button',
@@ -12,18 +12,22 @@ import {DashboardService, PlaylistTrack} from "../../../dashboard.service";
 })
 export class PlayButtonComponent {
   public dashboardService = inject(DashboardService);
-  public currentTrack = this.dashboardService.currentTrack;
-  public playlistTracks = this.dashboardService.currentPlaylistTracks;
+
   public playlistId = input.required<string>();
+  public currentTrack = this.dashboardService.currentTrack;
+  public playlistForPlayback = this.dashboardService.playlistForPlayback;
+  public tracksOfPlaylistSelected = this.dashboardService.tracksOfPlaylistSelected;
+
   public isPlayingPlaylist = computed(() => {
     return this.dashboardService.isPlaying() && this.currentTrack()?.playlistId === this.playlistId();
   })
 
-
   onChangePlayerStatus() {
-
     if (!this.currentTrack() || this.currentTrack()?.playlistId !== this.playlistId()) {
-      this.dashboardService.setCurrentTrack(this.playlistTracks()[0]);
+      if (this.playlistForPlayback() && this.playlistForPlayback()?.id !== this.playlistId()) {
+        this.dashboardService.syncPlaylistForPlayback();
+      }
+      this.dashboardService.setCurrentTrack(this.tracksOfPlaylistSelected()[0]);
       return;
     }
     this.dashboardService.switchIsPlaying();

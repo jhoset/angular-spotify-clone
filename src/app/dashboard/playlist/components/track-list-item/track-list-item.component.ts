@@ -1,9 +1,9 @@
 import {Component, computed, inject, input} from '@angular/core';
 import {DashboardService, PlaylistTrack} from "../../../dashboard.service";
 import {NgClass} from "@angular/common";
-import {CardPlayButtonComponent} from "@shared/components/card-play-button/card-play-button.component";
+import {CardPlayButtonComponent} from "../../../home/components/card-play-button/card-play-button.component";
 import {SvgIconComponent} from "angular-svg-icon";
-import {TrackPlayButtonComponent} from "../track-play-button/track-play-button.component";
+import {TrackItemPlayButtonComponent} from "../track-item-play-button/track-item-play-button.component";
 
 @Component({
   selector: '[appTrackListItem]',
@@ -12,16 +12,18 @@ import {TrackPlayButtonComponent} from "../track-play-button/track-play-button.c
     NgClass,
     CardPlayButtonComponent,
     SvgIconComponent,
-    TrackPlayButtonComponent
+    TrackItemPlayButtonComponent
   ],
   templateUrl: './track-list-item.component.html'
 })
 export class TrackListItemComponent {
   private dashboardService = inject(DashboardService);
-  private currentTrack = this.dashboardService.currentTrack;
-  private isPlaying = this.dashboardService.isPlaying;
+
   public index = input.required<number>()
   public track = input.required<PlaylistTrack>()
+  private currentTrack = this.dashboardService.currentTrack;
+  private isPlaying = this.dashboardService.isPlaying;
+
   public isPlayingCurrentTrack = computed(() => {
     return this.isPlaying() && this.currentTrack()?.trackId == this.track().trackId;
   })

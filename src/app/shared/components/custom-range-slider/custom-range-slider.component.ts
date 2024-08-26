@@ -26,7 +26,7 @@ export class CustomRangeSliderComponent implements AfterViewInit {
 
   constructor() {
     effect(() => {
-      if (!this.inputRangeRef() || !this.value() || this.inputRangeRef()?.nativeElement.max == 0) return;
+      if (!this.inputRangeRef() ||  this.value() < 0 || this.inputRangeRef()?.nativeElement.max == 0) return;
       const inputRangeElement = this.inputRangeRef()?.nativeElement;
       const progressPercentage = (inputRangeElement.value * 100) / inputRangeElement?.max;
       this.updateSliderBackground(progressPercentage)

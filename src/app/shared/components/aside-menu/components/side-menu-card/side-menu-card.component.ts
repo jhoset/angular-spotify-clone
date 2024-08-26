@@ -12,15 +12,16 @@ import {DashboardService} from "../../../../../dashboard/dashboard.service";
   templateUrl: './side-menu-card.component.html',
 })
 export class SideMenuCardComponent {
-  public playlist = input.required<SpotifyPlaylist>()
+  public playlist = input.required<SpotifyPlaylist>();
   public dashboardService = inject(DashboardService);
+  private playlistSelected = this.dashboardService.playlistSelected;
   public router = inject(Router);
 
   public goToPlaylistView(id: string) {
-
+    if (this.playlistSelected()?.id === id) return;
     this.router.navigate(["/playlist", id]).then(() => {
-      this.dashboardService.clearPlaylistWithTracks();
-      this.dashboardService.setCurrentPlaylist(this.playlist());
+      this.dashboardService.setPlaylistSelected(this.playlist());
+      this.dashboardService.setTracksOfPlaylistSelected([]);
     })
   }
 }

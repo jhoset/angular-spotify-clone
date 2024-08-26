@@ -1,20 +1,20 @@
 <div id="playlist-container"
-     class="relative flex flex-col h-full bg-[#121212] overflow-x-hidden px-6 gap-6"
-     [style.background-color]="currentPlaylist()?.color?.dark"
+     class="relative flex flex-col h-full bg-[#121212] overflow-x-hidden px-6 gap-6 select-none"
+     [style.background-color]="playlistSelected()?.color?.dark"
      [style.view-transition-name]="'pl-box-' + playlistId()">
   <header class="flex flex-row items-center gap-4 mt-10">
-    @if (currentPlaylist()) {
+    @if (playlistSelected()) {
       <picture class="aspect-square w-52 h-52 flex-none">
-        @if (currentPlaylist()!.images) {
+        @if (playlistSelected()?.images) {
           <img class="object-cover w-full h-full rounded-md shadow-lg"
-               [src]="currentPlaylist()!.images[0].url"
-               [style.view-transition-name]="'pl-img-' + currentPlaylist()!.id"
+               [src]="playlistSelected()!.images[0].url"
+               [style.view-transition-name]="'pl-img-' + playlistSelected()!.id"
                alt="playlist image">
         } @else {
           <div class="w-full h-full rounded-md bg-[#262626] flex items-center justify-center shadow-lg">
             <img [src]="'assets/icons/default-playlist-img.svg'"
                  alt="playlist image"
-                 [style.view-transition-name]="'pl-img-' + currentPlaylist()!.id">
+                 [style.view-transition-name]="'pl-img-' + playlistSelected()!.id">
           </div>
         }
       </picture>
@@ -22,12 +22,12 @@
         <div>
           <h2 class="flex flex-1 items-end">Playlist</h2>
           <h1 class="text-white text-7xl font-bold leading-none whitespace-nowrap truncate overflow-hidden">
-            {{ currentPlaylist()?.name || 'N/A' }}
-            <span [style.view-transition-name]="'pl-title-' + currentPlaylist()?.id"></span>
+            {{ playlistSelected()?.name || 'N/A' }}
+            <span [style.view-transition-name]="'pl-title-' + playlistSelected()?.id"></span>
           </h1>
         </div>
         <p class="line-clamp-1 text-[#ffffffb3] text-sm"
-           [innerHTML]="sanitizer.bypassSecurityTrustHtml(currentPlaylist()!.description!)">
+           [innerHTML]="sanitizer.bypassSecurityTrustHtml(playlistSelected()!.description!)">
         </p>
         <div class="flex items-center gap-1 text-sm text-white mb-2">
           @if (owner()?.images) {
@@ -37,12 +37,12 @@
                    alt="owner profile">
             </picture>
           }
-          <span [style.view-transition-name]="'pl-owner-' + currentPlaylist()!.id">
+          <span [style.view-transition-name]="'pl-owner-' + playlistSelected()!.id">
               <span class="font-bold">
-                {{ currentPlaylist()!.owner.display_name }}
+                {{ playlistSelected()!.owner.display_name }}
               </span>
               • {{ owner() ? (owner()!.followers.total | number) : '-' }} followers
-              • {{ currentPlaylist()!.tracks.total }} songs
+              • {{ playlistSelected()!.tracks.total }} songs
             </span>
         </div>
 
@@ -56,6 +56,6 @@
   <div class="absolute inset-0 bg-gradient-to-t from-[#121212] via-zinc-900/95 -z-10"></div>
 
   <section class="pb-6">
-    <app-track-list [tracks]="currentPlaylistTracks()"/>
+    <app-track-list [tracks]="tracksOfPlaylistSelected()"/>
   </section>
 </div>

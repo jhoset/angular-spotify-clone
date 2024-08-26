@@ -3,17 +3,17 @@ import {SvgIconComponent} from "angular-svg-icon";
 import {DashboardService, PlaylistTrack} from "../../../dashboard.service";
 
 @Component({
-  selector: 'app-track-play-button',
+  selector: 'app-track-item-play-button',
   standalone: true,
   imports: [
     SvgIconComponent
   ],
-  templateUrl: './track-play-button.component.html',
+  templateUrl: './track-item-play-button.component.html',
 })
-export class TrackPlayButtonComponent {
+export class TrackItemPlayButtonComponent {
   private dashboardService = inject(DashboardService);
+
   private currentTrack = this.dashboardService.currentTrack;
-  private isPlaying = this.dashboardService.isPlaying;
   public track = input.required<PlaylistTrack>();
   public isPlayingCurrentTrack = input.required<boolean>();
 

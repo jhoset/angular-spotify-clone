@@ -3,14 +3,14 @@
     <div class="flex w-full items-center justify-center">
       <img class="w-3.5" [src]="'assets/equaliser-animated.gif'" alt="equaliser animation">
     </div>
-    <app-track-play-button [track]="track()" [isPlayingCurrentTrack]="isPlayingCurrentTrack()"/>
+    <app-track-item-play-button [track]="track()" [isPlayingCurrentTrack]="isPlayingCurrentTrack()"/>
   </td>
 } @else {
   <td class="px-3 py-2 rounded-l-md w-10 text-center">
       <span [ngClass]="isSelectedCurrentTrack() ? 'text-[#1ED760]': 'text-[#B3B3B3]'">
         {{ index() + 1 }}
       </span>
-    <app-track-play-button [track]="track()" [isPlayingCurrentTrack]="isPlayingCurrentTrack()"/>
+    <app-track-item-play-button [track]="track()" [isPlayingCurrentTrack]="isPlayingCurrentTrack()"/>
   </td>
 }
 

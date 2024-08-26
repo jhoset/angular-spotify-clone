@@ -1,6 +1,6 @@
 import {Component, inject} from '@angular/core';
 import {DashboardService} from "../dashboard.service";
-import {PlaylistItemCardComponent} from "./components/playlist-item-card/playlist-item-card.component";
+import {PlaylistCardComponent} from "./components/playlist-card/playlist-card.component";
 import {RouterOutlet} from "@angular/router";
 import {GreetingComponent} from "./components/greeting/greeting.component";
 
@@ -8,7 +8,7 @@ import {GreetingComponent} from "./components/greeting/greeting.component";
   selector: 'app-home',
   standalone: true,
   imports: [
-    PlaylistItemCardComponent,
+    PlaylistCardComponent,
     RouterOutlet,
     GreetingComponent
   ],

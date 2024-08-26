@@ -6,6 +6,15 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {HttpErrorResponse} from "@angular/common/http";
 
 
+export interface DashboardState {
+  isLoading: boolean;
+  playlists: SpotifyPlaylist[];
+  player: PlayerState;
+  playlistSelected: PlaylistSelectedState;
+  playlistForPlayback: PlaylistForPlaybackState;
+  error: string | null;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,23 +24,32 @@ export class DashboardService {
   //***************************************************** STATE ********************************************************
   private state = signal<DashboardState>(DASHBOARD_INITIAL_STATE)
   //*************************************************** SELECTORS ******************************************************
-  public isLoading = computed<boolean>(() => this.state().isLoading);
-  public playlists = computed<SpotifyPlaylist[]>(() => this.state().playlists);
-  public currentPlaylist = computed<SpotifyPlaylist | undefined>(() => this.state().currentPlaylist);
-  public currentPlaylistTracks = computed<PlaylistTrack[]>(() => this.state().currentPlaylistTracks);
-  public playerVolume = computed<number>(() => this.state().player.volume);
-  public isPlaying = computed<boolean>(() => this.state().player.isPlaying);
-  public currentTrack = computed<PlaylistTrack | undefined>(() => this.state().player.currentTrack);
+  public isLoading = computed(() => this.state().isLoading);
+  public playlists = computed(() => this.state().playlists);
   public error = computed(() => this.state().error);
+  //? SELECTED PLAYLIST
+  public playlistSelected = computed(() => this.state().playlistSelected.playlist);
+  public tracksOfPlaylistSelected = computed(() => this.state().playlistSelected.tracks);
+  public isLoadingTracks = computed(() => this.state().playlistSelected.isLoading);
+  //? FOR PLAYBACK
+  public playlistForPlayback = computed(() => this.state().playlistForPlayback.playlist);
+  public tracksOfPlaylistForPlayback = computed(() => this.state().playlistForPlayback.tracks);
+  //? PLAYER
+  public playerVolume = computed(() => this.state().player.volume);
+  public isPlaying = computed(() => this.state().player.isPlaying);
+  public currentTrack = computed(() => this.state().player.currentTrack);
   //********************************************************************************************************************
   public topSixPlaylists = computed(() => this.getTopSixPlaylists());
 
   constructor() {
+    this.setIsLoading(true)
     this.playlistsService.getCurrentUserPlaylists().pipe(
-      tap(() => this.setIsLoading(true)),
       catchError(e => this.setError(e)),
       takeUntilDestroyed(),
-    ).subscribe(rs => this.setPlaylists(rs.items));
+    ).subscribe(rs => {
+      if (rs) this.setPlaylists(rs.items)
+      this.setIsLoading(false);
+    });
   }
 
   //**************************************************** ACTIONS *******************************************************
@@ -40,37 +58,88 @@ export class DashboardService {
   }
 
   public setPlaylists(newValue: SpotifyPlaylist[]) {
-    this.state.update((state) => ({...state, playlists: newValue, isLoading: false}));
-  }
-
-  public setCurrentPlaylist(newValue: SpotifyPlaylist | undefined) {
-    this.state.update((state) => ({...state, currentPlaylist: newValue}));
-  }
-
-  public setVolume(newValue: number) {
-    this.state.update((state) => ({...state, player: {...state.player, volume: newValue}}));
-  }
-
-  public setCurrentPlaylistTracks(newValue: PlaylistTrack[]) {
-    this.state.update((state) => ({...state, currentPlaylistTracks: newValue}));
-  }
-
-  public setCurrentTrack(newValue: PlaylistTrack | undefined) {
-    this.state.update((state) => ({...state, player: {...state.player, currentTrack: newValue}}));
-  }
-
-  public setIsPlaying(newValue: boolean) {
-    this.state.update((state) => ({...state, player: {...state.player, isPlaying: newValue}}));
-  }
-
-  public switchIsPlaying() {
-    this.state.update((state) => ({...state, player: {...state.player, isPlaying: !state.player.isPlaying}}));
+    this.state.update((state) => ({...state, playlists: newValue}));
   }
 
   public setError(e: HttpErrorResponse) {
-    this.state.update((state) => ({...state, error: this.getErrorMessage(e)}))
+    this.state.update((state) => ({...state, error: this.getErrorMessage(e), isLoading: false}));
     return of([]);
   }
+
+  public syncPlaylistForPlayback() {
+    this.state.update((state) => ({
+      ...state,
+      playlistForPlayback: {
+        tracks: state.playlistSelected.tracks,
+        playlist: state.playlistSelected.playlist,
+      },
+    }));
+  }
+
+  public setPlaylistSelected(newValue: SpotifyPlaylist | undefined) {
+    this.state.update((state) => ({
+      ...state,
+      playlistSelected: {...state.playlistSelected, playlist: newValue}
+    }));
+  }
+
+  public setTracksOfPlaylistSelected(newValue: PlaylistTrack[]) {
+    this.state.update((state) => ({
+      ...state,
+      playlistSelected: {...state.playlistSelected, tracks: newValue}
+    }));
+  }
+
+  public setIsLoadingTracks(newValue: boolean) {
+    this.state.update((state) => ({
+      ...state,
+      playlistSelected: {...state.playlistSelected, isLoading: newValue}
+    }));
+  }
+
+
+  public setCurrentPlaylist(newValue: SpotifyPlaylist | undefined) {
+    this.state.update((state) => ({
+      ...state,
+      playlistForPlayback: {...state.playlistForPlayback, playlist: newValue},
+    }));
+  }
+
+  public setCurrentPlaylistTracks(newValue: PlaylistTrack[]) {
+    this.state.update((state) => ({
+      ...state,
+      playlistForPlayback: {...state.playlistForPlayback, tracks: newValue},
+    }));
+  }
+
+  public setVolume(newValue: number) {
+    this.state.update((state) => ({
+      ...state,
+      player: {...state.player, volume: newValue}
+    }));
+  }
+
+  public setCurrentTrack(newValue: PlaylistTrack | undefined) {
+    this.state.update((state) => ({
+      ...state,
+      player: {...state.player, currentTrack: newValue}
+    }));
+  }
+
+  public setIsPlaying(newValue: boolean) {
+    this.state.update((state) => ({
+      ...state,
+      player: {...state.player, isPlaying: newValue}
+    }));
+  }
+
+  public switchIsPlaying() {
+    this.state.update((state) => ({
+      ...state,
+      player: {...state.player, isPlaying: !state.player.isPlaying}
+    }));
+  }
+
 
   //********************************************************************************************************************
 
@@ -92,11 +161,6 @@ export class DashboardService {
     return playlists;
   }
 
-  public clearPlaylistWithTracks() {
-    this.setCurrentPlaylist(undefined);
-    this.setCurrentPlaylistTracks([]);
-  }
-
   public getLocalPlaylistById(id: string) {
     return this.playlists().find(e => e.id === id);
   }
@@ -106,13 +170,15 @@ export class DashboardService {
 //*                                               INTERFACES & CONSTANTS
 //**********************************************************************************************************************
 
-export interface DashboardState {
+export interface PlaylistSelectedState {
+  playlist: SpotifyPlaylist | undefined;
+  tracks: PlaylistTrack[];
   isLoading: boolean;
-  playlists: SpotifyPlaylist[];
-  currentPlaylist: SpotifyPlaylist | undefined;
-  currentPlaylistTracks: PlaylistTrack[];
-  player: PlayerState;
-  error: string | null;
+}
+
+export interface PlaylistForPlaybackState {
+  playlist: SpotifyPlaylist | undefined;
+  tracks: PlaylistTrack[];
 }
 
 export interface PlayerState {
@@ -134,8 +200,15 @@ export const DASHBOARD_INITIAL_STATE: DashboardState =
   {
     isLoading: false,
     playlists: [],
-    currentPlaylist: undefined,
-    currentPlaylistTracks: [],
+    playlistSelected: {
+      tracks: [],
+      isLoading: false,
+      playlist: undefined
+    },
+    playlistForPlayback: {
+      playlist: undefined,
+      tracks: [],
+    },
     player: {
       volume: 1,
       isPlaying: false,

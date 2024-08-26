@@ -1,6 +1,6 @@
 import {
   AfterViewInit,
-  Component,
+  Component, computed,
   effect,
   ElementRef,
   inject,
@@ -29,8 +29,7 @@ import {CustomRangeSliderComponent} from "@shared/components/custom-range-slider
     NgClass,
     CustomRangeSliderComponent
   ],
-  templateUrl: './player.component.html',
-  styleUrl: './player.component.scss'
+  templateUrl: './player.component.html'
 })
 export class PlayerComponent implements AfterViewInit, OnDestroy {
   public dashboardService = inject(DashboardService);
@@ -38,28 +37,41 @@ export class PlayerComponent implements AfterViewInit, OnDestroy {
   private audioRef = viewChild.required<ElementRef>('audioRef');
   public isPlaying = this.dashboardService.isPlaying;
   public currentTrack = this.dashboardService.currentTrack;
-  public currentPlaylistTracks = this.dashboardService.currentPlaylistTracks;
+  public tracksOfPlaylistForPlayback = this.dashboardService.tracksOfPlaylistForPlayback;
   public playerVolume = this.dashboardService.playerVolume;
   public audioElement = signal<HTMLAudioElement | undefined>(undefined);
   public isLoadingTrack = signal<boolean>(false);
+
+  public disablePrev = computed(() => {
+    return !this.tracksOfPlaylistForPlayback().length || this.isLoadingTrack() || !this.getPreviousTrack();
+  })
+
+  public disableNext = computed(() => {
+    return !this.tracksOfPlaylistForPlayback().length || this.isLoadingTrack() || !this.getNextTrack();
+  })
+
+  public disabledPlayPause = computed(() => {
+    return !this.currentTrack() || this.isLoadingTrack();
+  })
 
   constructor() {
 
     effect(() => {
       if (!this.audioElement()) return;
-      console.log('fired isplaying?', this.isPlaying())
+      console.log('effect -> isPlaying:', this.isPlaying())
       this.isPlaying() ? this.audioElement()!.play() : this.audioElement()!.pause();
     });
 
     effect(() => {
       if (!this.audioElement() || !this.currentTrack()) return;
-      console.log('fireed 2')
+      console.log('effect -> currentTrack:', this.currentTrack())
       if (!this.audioElement()?.paused) this.audioElement()!.pause();
       this.audioElement()!.src = this.currentTrack()!.previewUrl;
       this.audioElement()!.load();
     });
 
     effect(() => {
+      console.log('effect -> playerVolume:', this.playerVolume())
       this.audioElement()!.volume = this.playerVolume();
     });
 
@@ -105,13 +117,13 @@ export class PlayerComponent implements AfterViewInit, OnDestroy {
   }
 
   public getSongIndex(id: string) {
-    return this.currentPlaylistTracks().findIndex(e => e.trackId === id);
+    return this.tracksOfPlaylistForPlayback().findIndex(e => e.trackId === id);
   }
 
   public getNextTrack(): PlaylistTrack | null {
     const index = this.getSongIndex(this.currentTrack()?.trackId || '');
-    if (index > -1 && index + 1 < this.currentPlaylistTracks().length) {
-      return this.currentPlaylistTracks()[index + 1];
+    if (index > -1 && index + 1 < this.tracksOfPlaylistForPlayback().length) {
+      return this.tracksOfPlaylistForPlayback()[index + 1];
     }
     return null;
   }
@@ -119,7 +131,7 @@ export class PlayerComponent implements AfterViewInit, OnDestroy {
   public getPreviousTrack(): PlaylistTrack | null {
     const index = this.getSongIndex(this.currentTrack()?.trackId || '');
     if (index > -1 && index - 1 >= 0) {
-      return this.currentPlaylistTracks()[index - 1];
+      return this.tracksOfPlaylistForPlayback()[index - 1];
     }
     return null;
   }
