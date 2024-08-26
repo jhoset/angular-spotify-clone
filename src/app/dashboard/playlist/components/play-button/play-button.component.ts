@@ -24,9 +24,7 @@ export class PlayButtonComponent {
 
   onChangePlayerStatus() {
     if (!this.currentTrack() || this.currentTrack()?.playlistId !== this.playlistId()) {
-      if (this.playlistForPlayback() && this.playlistForPlayback()?.id !== this.playlistId()) {
-        this.dashboardService.syncPlaylistForPlayback();
-      }
+      this.dashboardService.syncPlaylistForPlayback();
       this.dashboardService.setCurrentTrack(this.tracksOfPlaylistSelected()[0]);
       return;
     }

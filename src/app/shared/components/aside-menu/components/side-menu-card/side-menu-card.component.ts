@@ -19,9 +19,9 @@ export class SideMenuCardComponent {
 
   public goToPlaylistView(id: string) {
     if (this.playlistSelected()?.id === id) return;
+    this.dashboardService.setTracksOfPlaylistSelected([]);
     this.router.navigate(["/playlist", id]).then(() => {
       this.dashboardService.setPlaylistSelected(this.playlist());
-      this.dashboardService.setTracksOfPlaylistSelected([]);
     })
   }
 }

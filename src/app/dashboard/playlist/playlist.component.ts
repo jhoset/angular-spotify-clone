@@ -1,4 +1,4 @@
-import {Component, DestroyRef, effect, inject, signal} from '@angular/core';
+import {Component, computed, DestroyRef, effect, inject, signal} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {takeUntilDestroyed, toObservable, toSignal} from "@angular/core/rxjs-interop";
 import {map} from "rxjs";
@@ -39,6 +39,7 @@ export class PlaylistComponent {
   public playlistId = toSignal(this.route.params.pipe(map(p => p['id'])));
   public playlistSelected = this.dashboardService.playlistSelected;
   public tracksOfPlaylistSelected = this.dashboardService.tracksOfPlaylistSelected;
+  public playlistForPlayback = this.dashboardService.playlistForPlayback;
 
   public playlists = this.dashboardService.playlists;
   public playlists$ = toObservable(this.playlists);
@@ -63,8 +64,8 @@ export class PlaylistComponent {
         takeUntilDestroyed(this.destroyRef)
       ).subscribe(rs => {
         this.dashboardService.setIsLoadingTracks(false);
-        this.dashboardService.setTracksOfPlaylistSelected(rs)
-        this.dashboardService.syncPlaylistForPlayback();
+        this.dashboardService.setTracksOfPlaylistSelected(rs);
+        if (!this.playlistForPlayback()) this.dashboardService.syncPlaylistForPlayback();
       });
     })
 

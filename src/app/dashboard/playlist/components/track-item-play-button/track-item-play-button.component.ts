@@ -20,6 +20,7 @@ export class TrackItemPlayButtonComponent {
 
   onChangePlayerStatus() {
     if (!this.currentTrack() || this.currentTrack()?.trackId !== this.track().trackId) {
+      this.dashboardService.syncPlaylistForPlayback();
       this.dashboardService.setCurrentTrack(this.track());
       return;
     }
