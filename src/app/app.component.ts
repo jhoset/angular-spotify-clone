@@ -27,5 +27,9 @@ export class AppComponent {
     this._iconRegistry.addSvgIcon('connect-device');
     this._iconRegistry.addSvgIcon('queue');
     this._iconRegistry.addSvgIcon('full-screen');
+    this._iconRegistry.addSvgIcon('next');
+    this._iconRegistry.addSvgIcon('prev');
+    this._iconRegistry.addSvgIcon('repeat');
+    this._iconRegistry.addSvgIcon('shuffle');
   }
 }
