@@ -11,7 +11,7 @@ import {
 } from "@core/services/playlists/interfaces";
 import {SpotifyUserProfile} from "@core/services/users/interfaces";
 import {UsersService} from "@core/services/users/users.service";
-import {DecimalPipe} from "@angular/common";
+import {DecimalPipe, NgClass} from "@angular/common";
 import {TrackListComponent} from "./components/track-list/track-list.component";
 import {PlayButtonComponent} from "./components/play-button/play-button.component";
 
@@ -22,7 +22,8 @@ import {PlayButtonComponent} from "./components/play-button/play-button.componen
     PlaylistItemCardComponent,
     DecimalPipe,
     TrackListComponent,
-    PlayButtonComponent
+    PlayButtonComponent,
+    NgClass
   ],
   templateUrl: './playlist.component.html',
   styleUrl: './playlist.component.scss'

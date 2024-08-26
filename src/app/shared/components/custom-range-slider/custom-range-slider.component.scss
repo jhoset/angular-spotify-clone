@@ -19,10 +19,10 @@ input[type="range"] {
   border-radius: 15px;
   height: 6px;
   transition: .3s ease-in-out;
+  border: 1px solid #000000;
   &:hover {
     --progress-color: #1DB954;
   }
-  border: 1px solid #000000;
 }
 
 /* Thumb: webkit */
