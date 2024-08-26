@@ -19,6 +19,7 @@ export class SideMenuCardComponent {
   public goToPlaylistView(id: string) {
 
     this.router.navigate(["/playlist", id]).then(() => {
+      this.dashboardService.clearPlaylistWithTracks();
       this.dashboardService.setCurrentPlaylist(this.playlist());
     })
   }

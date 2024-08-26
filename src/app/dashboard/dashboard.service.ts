@@ -1,6 +1,6 @@
 import {computed, inject, Injectable, signal} from '@angular/core';
 import {PlaylistsService} from "@core/services/playlists/playlists.service";
-import {SpotifyPlaylist, SpotifyPlaylistItem} from "@core/services/playlists/interfaces";
+import {SpotifyPlaylist} from "@core/services/playlists/interfaces";
 import {catchError, of, tap} from "rxjs";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -90,6 +90,15 @@ export class DashboardService {
     const playlists = this.state().playlists;
     if (playlists?.length > 6) return playlists.slice(0, 6);
     return playlists;
+  }
+
+  public clearPlaylistWithTracks() {
+    this.setCurrentPlaylist(undefined);
+    this.setCurrentPlaylistTracks([]);
+  }
+
+  public getLocalPlaylistById(id: string) {
+    return this.playlists().find(e => e.id === id);
   }
 }
 

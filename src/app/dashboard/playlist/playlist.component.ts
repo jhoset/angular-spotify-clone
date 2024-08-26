@@ -1,15 +1,12 @@
-import {Component, computed, effect, inject, OnInit, signal} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {takeUntilDestroyed, toSignal} from "@angular/core/rxjs-interop";
-import {map, tap} from "rxjs";
+import {Component, effect, inject, signal} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
+import {takeUntilDestroyed, toObservable, toSignal} from "@angular/core/rxjs-interop";
+import {map} from "rxjs";
 import {PlaylistItemCardComponent} from "../home/components/playlist-item-card/playlist-item-card.component";
 import {DashboardService, PlaylistTrack} from "../dashboard.service";
 import {DomSanitizer} from "@angular/platform-browser";
 import {PlaylistsService} from "@core/services/playlists/playlists.service";
 import {
-  SpotifyPlaylist,
-  SpotifyPlaylistImageResponse,
-  SpotifyPlaylistItem,
   SpotifyPlaylistTrackResponse
 } from "@core/services/playlists/interfaces";
 import {SpotifyUserProfile} from "@core/services/users/interfaces";
@@ -35,23 +32,46 @@ export class PlaylistComponent {
   private playlistsService: PlaylistsService = inject(PlaylistsService);
   private usersService: UsersService = inject(UsersService);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   public dashboardService = inject(DashboardService);
   //? SIGNALS
   public playlistId = toSignal(this.route.params.pipe(map(p => p['id'])));
   public currentPlaylistTracks = this.dashboardService.currentPlaylistTracks;
   public currentPlaylist = this.dashboardService.currentPlaylist;
+  public playlists = this.dashboardService.playlists;
+  public playlists$ = toObservable(this.playlists);
   public owner = signal<SpotifyUserProfile | undefined>(undefined);
 
   constructor() {
-    this.playlistsService.getPlaylistTracks(this.playlistId()).pipe(
-      map(rs => this.filterResponseData(rs)),
+    this.playlists$.pipe(
       takeUntilDestroyed()
-    ).subscribe(rs => this.dashboardService.setCurrentPlaylistTracks(rs));
+    ).subscribe(rs => {
+      if (!rs.length) return;
+      const playlist = this.dashboardService.getLocalPlaylistById(this.playlistId());
+      if (playlist) this.dashboardService.setCurrentPlaylist(playlist);
+      if (!playlist) this.router.navigate(['/home']);
+    })
 
-    effect(() => {
+    effect((onCleanup) => {
+      const subscription$ = this.playlistsService.getPlaylistTracks(this.playlistId()).pipe(
+        map(rs => this.filterResponseData(rs)),
+      ).subscribe(rs => {
+        this.dashboardService.setCurrentPlaylistTracks(rs)
+      });
+
+      onCleanup(() => {
+        subscription$.unsubscribe();
+      })
+    });
+
+    effect((onCleanup) => {
       if (!this.currentPlaylist()) return;
-      this.usersService.getUserProfile(this.currentPlaylist()!.owner.id!).subscribe(rs => {
+      const subscription$ = this.usersService.getUserProfile(this.currentPlaylist()!.owner.id!).subscribe(rs => {
         this.owner.set(rs);
+      });
+
+      onCleanup(() => {
+        subscription$.unsubscribe();
       })
     });
   }

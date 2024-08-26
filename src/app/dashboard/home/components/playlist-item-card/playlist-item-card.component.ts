@@ -27,7 +27,8 @@ export class PlaylistItemCardComponent {
 
 
   public goToPlaylistView(id: string) {
+    this.dashboardService.clearPlaylistWithTracks();
     this.dashboardService.setCurrentPlaylist(this.playlist());
-    this.router.navigate(["/playlist", id])
+    this.router.navigate(["/playlist", id]);
   }
 }

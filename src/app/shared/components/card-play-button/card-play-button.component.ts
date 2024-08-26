@@ -2,9 +2,8 @@ import {Component, computed, effect, inject, input, signal} from '@angular/core'
 import {SvgIconComponent} from "angular-svg-icon";
 import {DashboardService, PlaylistTrack} from "../../../dashboard/dashboard.service";
 import {PlaylistsService} from "@core/services/playlists/playlists.service";
-import {takeUntilDestroyed, toSignal} from "@angular/core/rxjs-interop";
-import {map, tap} from "rxjs";
-import {SpotifyPlaylistItem, SpotifyPlaylistTrackResponse} from "@core/services/playlists/interfaces";
+import {map} from "rxjs";
+import {SpotifyPlaylistTrackResponse} from "@core/services/playlists/interfaces";
 
 @Component({
   selector: 'app-card-play-button',
@@ -28,13 +27,15 @@ export class CardPlayButtonComponent {
   })
 
   constructor() {
-    effect(() => {
+    effect((onCleanup) => {
       if (!this.playlistId()) return;
-      this.playlistsService.getPlaylistTracks(this.playlistId()).pipe(
+      const subscription$ = this.playlistsService.getPlaylistTracks(this.playlistId()).pipe(
         map(rs => this.filterResponseData(rs)),
       ).subscribe(rs => {
         this.playlistTracks.set(rs);
       });
+
+      onCleanup(() => subscription$.unsubscribe());
     });
   }
 
@@ -51,12 +52,10 @@ export class CardPlayButtonComponent {
 
   onChangePlayerStatus() {
     if (this.currentTrack()?.playlistId !== this.playlistId()) {
-      console.log('No is playing playlist')
       this.dashboardService.setCurrentPlaylistTracks(this.playlistTracks())
       this.dashboardService.setCurrentTrack(this.playlistTracks()[0]);
       return;
     }
-    console.log('switch')
     this.dashboardService.switchIsPlaying();
   }
 }
