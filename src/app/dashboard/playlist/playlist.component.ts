@@ -15,13 +15,17 @@ import {
 import {SpotifyUserProfile} from "@core/services/users/interfaces";
 import {UsersService} from "@core/services/users/users.service";
 import {DecimalPipe} from "@angular/common";
+import {TrackListComponent} from "./components/track-list/track-list.component";
+import {PlayButtonComponent} from "./components/play-button/play-button.component";
 
 @Component({
   selector: 'app-playlist',
   standalone: true,
   imports: [
     PlaylistItemCardComponent,
-    DecimalPipe
+    DecimalPipe,
+    TrackListComponent,
+    PlayButtonComponent
   ],
   templateUrl: './playlist.component.html',
   styleUrl: './playlist.component.scss'

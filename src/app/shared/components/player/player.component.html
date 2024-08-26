@@ -1,31 +1,55 @@
-<div class="flex flex-row justify-between w-full px-2 z-50">
-  <div class="w-[350px]">
+<div class="flex flex-row justify-between w-full h-full px-2 z-50">
+  <div class="w-[350px] h-full flex flex-col justify-center">
     <app-current-track [track]="currentTrack()"/>
   </div>
 
-  <div class="grid place-content-center gap-4 flex-1">
-    <div class="flex justify-center">
-      <button class="bg-white rounded-full p-2" (click)="onChangePlayerStatus()">
-        <svg-icon [ngClass]="isPlaying()? 'inline' : 'hidden'" name="pause"/>
-        <svg-icon [ngClass]="!isPlaying()? 'inline' : 'hidden'" name="play"/>
+  <div class="grid place-content-center gap-2 flex-1">
+    <div class="flex justify-center gap-4 items-center">
+      <button disabled class="opacity-30 p-1">
+        <svg-icon [svgClass]="'h-4'" name="shuffle"/>
+      </button>
+      <button [disabled]="!currentPlaylistTracks().length || isLoadingTrack()"
+              [ngClass]="!currentPlaylistTracks().length ? 'pointer-events-none': ''"
+              (click)="onPreviousTrack()"
+              title="Previous"
+              class="p-1 opacity-70 hover:opacity-100 transition-all duration-300">
+        <svg-icon [svgClass]="'h-4'" name="prev"/>
+      </button>
+      <button class="bg-white rounded-full p-1.5 hover:scale-105 transition-all duration-300"
+              [disabled]="!currentTrack() || isLoadingTrack()"
+              [ngClass]="!currentTrack() ? 'pointer-events-none opacity-70': ''"
+              (click)="onChangePlayerStatus()">
+        <svg-icon title="Pause" [svgClass]="'text-black h-5'" [ngClass]="isPlaying()? 'inline' : 'hidden'"
+                  name="pause"/>
+        <svg-icon title="Play" [svgClass]="'text-black h-5'" [ngClass]="!isPlaying()? 'inline' : 'hidden'" name="play"/>
+      </button>
+      <button [disabled]="!currentPlaylistTracks().length || isLoadingTrack()"
+              [ngClass]="!currentPlaylistTracks().length ? 'pointer-events-none': ''"
+              (click)="onNextTrack()"
+              title="Next"
+              class="p-1 opacity-70 hover:opacity-100 transition-all duration-300">
+        <svg-icon [svgClass]="'h-4'" name="next"/>
+      </button>
+      <button disabled class="opacity-30 p-1">
+        <svg-icon [svgClass]="'h-4'" name="repeat"/>
       </button>
     </div>
     <app-playback-control [audioPlayer]="audioElement()"/>
   </div>
 
   <div class="flex gap-4 justify-end items-center w-[350px]">
-    <button disabled class="opacity-50">
-      <svg-icon name="now-playing" />
+    <button disabled class="opacity-30">
+      <svg-icon name="now-playing"/>
     </button>
-    <button disabled class="opacity-50">
-      <svg-icon name="queue" />
+    <button disabled class="opacity-30">
+      <svg-icon name="queue"/>
     </button>
-    <button disabled class="opacity-50">
-      <svg-icon name="connect-device" />
+    <button disabled class="opacity-30">
+      <svg-icon name="connect-device"/>
     </button>
     <app-volume-control/>
-    <button title="Full screen" class="opacity-70 hover:opacity-100">
-      <svg-icon name="full-screen" />
+    <button title="Full screen" class="opacity-70 hover:opacity-100 transition-all duration-300">
+      <svg-icon name="full-screen"/>
     </button>
   </div>
 

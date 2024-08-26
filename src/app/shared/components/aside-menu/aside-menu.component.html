@@ -1,31 +1,15 @@
-<nav class="flex flex-col flex-1 gap-2">
-  <div class="bg-zinc-900 rounded-lg p-2">
-    <ul>
-      <app-side-menu-item href="/">
-        <svg-icon name="home"/>
-        Home
-      </app-side-menu-item>
-      <app-side-menu-item href="/">
-        <svg-icon name="search"/>
-        Search
-      </app-side-menu-item>
-    </ul>
-  </div>
-  <div class="bg-zinc-900 rounded-lg p-2 flex-1">
-    <ul>
-      <app-side-menu-item href="/">
-        <svg-icon name="library"/>
-        Your Library
-      </app-side-menu-item>
-
-
+<nav class="bg-zinc-900 rounded-lg h-full flex-1 ">
+  <div class="flex flex-col gap-2">
+    <app-side-menu-item class="px-5" href="/">
+      <svg-icon name="library"/>
+      Your Library
+    </app-side-menu-item>
+    <ul id="library-result" class="max-h-[calc(100vh-255px)] overflow-y-auto px-2">
       @for (playlist of playlists(); track playlist.id) {
         <app-side-menu-card [playlist]="playlist"/>
       } @empty {
         <p> No records available </p>
       }
-
     </ul>
   </div>
 </nav>
-

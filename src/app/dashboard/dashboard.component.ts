@@ -14,14 +14,15 @@ import {PlayerComponent} from "@shared/components/player/player.component";
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
   private route: ActivatedRoute = inject(ActivatedRoute);
 
-  ngOnInit() {
+  constructor() {
     this.route.queryParams.subscribe(params => {
       if (params['accessToken'] && params['refreshToken']) {
-        localStorage.setItem('token', JSON.stringify(params['accessToken']));
-        localStorage.setItem('refreshToken', JSON.stringify(params['refreshToken']));
+        console.log('params', params)
+        localStorage.setItem('token', params['accessToken']);
+        localStorage.setItem('refresh_token', params['refreshToken']);
         window.history.pushState({}, '', '/home');
       }
     });

@@ -1,7 +1,10 @@
-<div class="card-play-button rounded-full bg-green-500 p-4" (click)="onChangePlayerStatus()">
+<button class="rounded-full bg-green-500 p-3 hover:scale-105
+                shadow-lg shadow-[#121212]/50
+                transition duration-200 hover:bg-[#3BE477]"
+        (click)="onChangePlayerStatus()">
   @if (isPlayingPlaylist()) {
-    <svg-icon name="pause"/>
+    <svg-icon [svgClass]="'text-black'" name="pause"/>
   } @else {
-    <svg-icon name="play"/>
+    <svg-icon [svgClass]="'text-black'" name="play"/>
   }
-</div>
+</button>

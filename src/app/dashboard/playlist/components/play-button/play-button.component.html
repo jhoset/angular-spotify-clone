@@ -1,0 +1,8 @@
+<button class="rounded-full bg-green-500 p-4 hover:scale-105  transition duration-200 hover:bg-[#3BE477]"
+     (click)="onChangePlayerStatus()">
+  @if (isPlayingPlaylist()) {
+    <svg-icon [svgClass]="'text-black'" name="pause"/>
+  } @else {
+    <svg-icon [svgClass]="'text-black'" name="play"/>
+  }
+</button>

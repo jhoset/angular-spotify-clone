@@ -4,6 +4,7 @@
          (input)="onSliderChange($event)"
          (mousedown)="onMousedown($event)"
          (mouseup)="onMouseup($event)"
+         [disabled]="disabled()"
          [value]="value()"
          [min]="min()"
          [max]="max()"

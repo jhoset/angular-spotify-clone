@@ -1,0 +1,8 @@
+#library-result::-webkit-scrollbar-thumb {
+  visibility: hidden;
+}
+
+#library-result:hover::-webkit-scrollbar-thumb {
+  visibility: visible;
+}
+

@@ -3,7 +3,9 @@ import {SvgIconComponent} from "angular-svg-icon";
 import {DashboardService, PlaylistTrack} from "../../../dashboard/dashboard.service";
 import {CurrentTrackComponent} from "@shared/components/player/components/current-track/current-track.component";
 import {VolumeControlComponent} from "@shared/components/player/components/volume-control/volume-control.component";
-import {PlaybackControlComponent} from "@shared/components/player/components/playback-control/playback-control.component";
+import {
+  PlaybackControlComponent
+} from "@shared/components/player/components/playback-control/playback-control.component";
 import {NgClass} from "@angular/common";
 import {BehaviorSubject, Subject} from "rxjs";
 import {CustomRangeSliderComponent} from "@shared/components/custom-range-slider/custom-range-slider.component";
@@ -31,6 +33,7 @@ export class PlayerComponent implements AfterViewInit {
   public currentPlaylistTracks = this.dashboardService.currentPlaylistTracks;
   public playerVolume = this.dashboardService.playerVolume;
   public audioElement = signal<HTMLAudioElement | undefined>(undefined);
+  public isLoadingTrack = signal<boolean>(false);
 
   constructor() {
 
@@ -43,8 +46,9 @@ export class PlayerComponent implements AfterViewInit {
     effect(() => {
       if (!this.audioElement() || !this.currentTrack()) return;
       console.log('fireed 2')
-      this.audioElement()!.pause();
+      if (!this.audioElement()?.paused) this.audioElement()!.pause();
       this.audioElement()!.src = this.currentTrack()!.previewUrl;
+      this.audioElement()!.load();
     });
 
     effect(() => {
@@ -56,8 +60,13 @@ export class PlayerComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.audioElement.set(this.audioRef().nativeElement as HTMLAudioElement);
     this.audioElement()?.addEventListener('loadstart', (event) => {
+      this.isLoadingTrack.set(true);
       console.log(`'${event.type}' event fired`);
-      this.audioElement()?.play();
+      if (!this.isPlaying()) this.dashboardService.setIsPlaying(true);
+      if (this.isPlaying()) this.audioElement()?.play();
+    })
+    this.audioElement()?.addEventListener('loadeddata', (event) => {
+      this.isLoadingTrack.set(false);
     })
     this.audioElement()?.addEventListener('ended', (event) => {
       console.log('end')
@@ -65,10 +74,10 @@ export class PlayerComponent implements AfterViewInit {
       const nextTrack = this.getNextTrack();
       if (nextTrack) {
         this.dashboardService.setCurrentTrack(nextTrack);
-        this.audioElement()!.src = nextTrack.previewUrl;
-        this.audioElement()!.load();
-        this.dashboardService.setIsPlaying(true);
       }
+      setTimeout(() => {
+        if (nextTrack && !this.isPlaying()) this.dashboardService.setIsPlaying(true);
+      }, 500)
     })
   }
 
@@ -88,21 +97,27 @@ export class PlayerComponent implements AfterViewInit {
     return null;
   }
 
-  public handleNextEvent() {
+  public getPreviousTrack(): PlaylistTrack | null {
     const index = this.getSongIndex(this.currentTrack()?.trackId || '');
-    if (index > -1 && index + 1 < this.currentPlaylistTracks().length) {
-      this.dashboardService.setIsPlaying(false);
-      this.dashboardService.setCurrentTrack(this.currentPlaylistTracks()[index + 1])
-      this.dashboardService.setIsPlaying(true);
+    if (index > -1 && index - 1 >= 0) {
+      return this.currentPlaylistTracks()[index - 1];
+    }
+    return null;
+  }
+
+  public onNextTrack() {
+    const nextTrack = this.getNextTrack();
+    if (nextTrack) {
+      this.dashboardService.setCurrentTrack(nextTrack);
+      if (!this.isPlaying()) this.dashboardService.setIsPlaying(true);
     }
   }
 
-  public handlePrevEvent() {
-    const index = this.getSongIndex(this.currentTrack()?.trackId || '');
-    if (index > 0) {
-      this.dashboardService.setIsPlaying(false);
-      this.dashboardService.setCurrentTrack(this.currentPlaylistTracks()[index - 1]);
-      this.dashboardService.setIsPlaying(true);
+  public onPreviousTrack() {
+    const previousTrack = this.getPreviousTrack();
+    if (previousTrack) {
+      this.dashboardService.setCurrentTrack(previousTrack);
+      if (!this.isPlaying()) this.dashboardService.setIsPlaying(true);
     }
   }
 

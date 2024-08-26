@@ -50,11 +50,13 @@ export class CardPlayButtonComponent {
   }
 
   onChangePlayerStatus() {
-    if (!this.isPlayingPlaylist()) {
-      this.dashboardService.setIsPlaying(false);
+    if (this.currentTrack()?.playlistId !== this.playlistId()) {
+      console.log('No is playing playlist')
       this.dashboardService.setCurrentPlaylistTracks(this.playlistTracks())
       this.dashboardService.setCurrentTrack(this.playlistTracks()[0]);
+      return;
     }
+    console.log('switch')
     this.dashboardService.switchIsPlaying();
   }
 }

@@ -1,0 +1,23 @@
+table tbody {
+  display: block;
+  max-height: calc(100vh - 500px);
+  overflow-y: auto;
+  &::-webkit-scrollbar-thumb {
+    visibility: hidden;
+  }
+}
+
+table {
+  &:hover {
+    tbody::-webkit-scrollbar-thumb {
+      visibility: visible;
+    }
+  }
+}
+
+
+table thead, table tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}

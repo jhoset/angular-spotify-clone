@@ -1,7 +1,7 @@
 <article
   class="group relative hover:bg-zinc-800 shadow-lg hover:shadow-xl bg-zinc-500/30 rounded-md transition-all duration-300">
-  <div class="absolute right-4 bottom-20 translate-y-4 transition-all duration-500 opacity-0
-              group-hover:translate-y-0 group-hover:opacity-100 z-10">
+  <div [ngClass]=" isPlayingPlaylist() ? 'opacity-100 translate-y-0': 'opacity-0 translate-y-4 group-hover:translate-y-0 group-hover:opacity-100 z'"
+       class="absolute right-4 bottom-20 transition-all duration-500 z-10">
     <app-card-play-button [playlistId]="playlist().id"/>
   </div>
 
