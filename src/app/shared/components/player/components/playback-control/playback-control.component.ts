@@ -20,7 +20,7 @@ export class PlaybackControlComponent implements OnDestroy {
   constructor() {
     effect(() => {
       if (!this.audioPlayer()) return;
-      this.audioPlayer()?.addEventListener('timeupdate', this.handleTimeUpdate)
+      this.audioPlayer()?.addEventListener('timeupdate', this.handleTimeUpdate);
     });
   }
 
@@ -44,6 +44,4 @@ export class PlaybackControlComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.audioPlayer()?.removeEventListener('timeupdate', this.handleTimeUpdate)
   }
-
-  protected readonly Math = Math;
 }

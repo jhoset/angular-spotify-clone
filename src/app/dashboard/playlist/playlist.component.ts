@@ -46,7 +46,7 @@ export class PlaylistComponent {
     this.playlists$.pipe(
       takeUntilDestroyed()
     ).subscribe(rs => {
-      if (!rs.length) return;
+      if (!rs || !rs.length) return;
       const playlist = this.dashboardService.getLocalPlaylistById(this.playlistId());
       if (playlist) this.dashboardService.setCurrentPlaylist(playlist);
       if (!playlist) this.router.navigate(['/home']);

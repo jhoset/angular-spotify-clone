@@ -1,4 +1,13 @@
-import {AfterViewInit, Component, computed, effect, ElementRef, inject, signal, viewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  effect,
+  ElementRef,
+  inject,
+  OnDestroy,
+  signal,
+  viewChild
+} from '@angular/core';
 import {SvgIconComponent} from "angular-svg-icon";
 import {DashboardService, PlaylistTrack} from "../../../dashboard/dashboard.service";
 import {CurrentTrackComponent} from "@shared/components/player/components/current-track/current-track.component";
@@ -7,7 +16,6 @@ import {
   PlaybackControlComponent
 } from "@shared/components/player/components/playback-control/playback-control.component";
 import {NgClass} from "@angular/common";
-import {BehaviorSubject, Subject} from "rxjs";
 import {CustomRangeSliderComponent} from "@shared/components/custom-range-slider/custom-range-slider.component";
 
 @Component({
@@ -24,7 +32,7 @@ import {CustomRangeSliderComponent} from "@shared/components/custom-range-slider
   templateUrl: './player.component.html',
   styleUrl: './player.component.scss'
 })
-export class PlayerComponent implements AfterViewInit {
+export class PlayerComponent implements AfterViewInit, OnDestroy {
   public dashboardService = inject(DashboardService);
   //? SIGNALS
   private audioRef = viewChild.required<ElementRef>('audioRef');
@@ -59,26 +67,37 @@ export class PlayerComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.audioElement.set(this.audioRef().nativeElement as HTMLAudioElement);
-    this.audioElement()?.addEventListener('loadstart', (event) => {
-      this.isLoadingTrack.set(true);
-      console.log(`'${event.type}' event fired`);
-      if (!this.isPlaying()) this.dashboardService.setIsPlaying(true);
-      if (this.isPlaying()) this.audioElement()?.play();
-    })
-    this.audioElement()?.addEventListener('loadeddata', (event) => {
-      this.isLoadingTrack.set(false);
-    })
-    this.audioElement()?.addEventListener('ended', (event) => {
-      console.log('end')
-      this.dashboardService.setIsPlaying(false);
-      const nextTrack = this.getNextTrack();
-      if (nextTrack) {
-        this.dashboardService.setCurrentTrack(nextTrack);
-      }
-      setTimeout(() => {
-        if (nextTrack && !this.isPlaying()) this.dashboardService.setIsPlaying(true);
-      }, 500)
-    })
+    this.audioElement()?.addEventListener('loadstart', this.handleLoadstart);
+    this.audioElement()?.addEventListener('loadeddata', this.handleLoadeddata);
+    this.audioElement()?.addEventListener('ended', this.handleEnd);
+  }
+
+  ngOnDestroy() {
+    this.audioElement()?.removeEventListener('loadstart', this.handleLoadstart);
+    this.audioElement()?.removeEventListener('loadeddata', this.handleLoadeddata);
+    this.audioElement()?.removeEventListener('ended', this.handleEnd);
+  }
+
+  public handleLoadstart = () => {
+    this.isLoadingTrack.set(true);
+    if (!this.isPlaying()) this.dashboardService.setIsPlaying(true);
+    if (this.isPlaying()) this.audioElement()?.play();
+  }
+
+  public handleEnd = () => {
+    console.log('end')
+    this.dashboardService.setIsPlaying(false);
+    const nextTrack = this.getNextTrack();
+    if (nextTrack) {
+      this.dashboardService.setCurrentTrack(nextTrack);
+    }
+    setTimeout(() => {
+      if (nextTrack && !this.isPlaying()) this.dashboardService.setIsPlaying(true);
+    }, 500)
+  }
+
+  public handleLoadeddata = () => {
+    this.isLoadingTrack.set(false);
   }
 
   public onChangePlayerStatus() {
@@ -120,5 +139,6 @@ export class PlayerComponent implements AfterViewInit {
       if (!this.isPlaying()) this.dashboardService.setIsPlaying(true);
     }
   }
+
 
 }
