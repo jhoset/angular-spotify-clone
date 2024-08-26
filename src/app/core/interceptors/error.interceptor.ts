@@ -1,5 +1,5 @@
-import {HttpErrorResponse, HttpHandlerFn, HttpInterceptorFn, HttpRequest} from '@angular/common/http';
-import {catchError, from, lastValueFrom, switchMap, throwError} from "rxjs";
+import {HttpErrorResponse, HttpInterceptorFn} from '@angular/common/http';
+import {catchError, switchMap, throwError} from "rxjs";
 import {AuthRefreshTokenResponse, AuthService} from "@core/services/auth/auth.service";
 import {inject} from "@angular/core";
 import {Router} from "@angular/router";
@@ -8,42 +8,40 @@ import {Router} from "@angular/router";
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const authService = inject(AuthService);
+
   return next(req).pipe(
     catchError((err: any) => {
       if (err instanceof HttpErrorResponse) {
         // Handle HTTP errors
-        if (err.status == 401 || err.error.status == 401 ) {
-          console.log('401', err.error.message)
+        if ((err.status == 401 || err.error.status == 401) && !req.url.includes('/api/auth/refresh_token')) {
           const refresh_token = localStorage.getItem('refresh_token');
-          console.log('trying refresh', refresh_token);
-          if (refresh_token) {
-            console.log('ENTRO AQUI', refresh_token)
-            authService.refreshToken(refresh_token).subscribe((res: AuthRefreshTokenResponse) => {
-                console.warn('>>> Refresh response')
-                localStorage.setItem('token', res.accessToken);
-                localStorage.setItem('refresh_token', res.refreshToken || refresh_token);
-                const clonedReq = req.clone({
-                  setHeaders: {
-                    Authorization: `Bearer ${res.accessToken}`
-                  }
-                });
-                console.log('>>> Token Refreshed!');
-                return next(clonedReq);
-              },
-              catchError((error) => {
-                console.log('error refreshing')
-                if (error.status == 403) {
-                  console.log('An error occurred trying to refresh token');
-                  localStorage.removeItem('token');
-                  localStorage.removeItem('refresh_token');
-                  router.navigate(['/auth/login']);
-                }
-                return throwError(() => error);
-              })
-            )
-          } else {
+          if (!refresh_token) {
             router.navigate(['/auth/login']);
+            return throwError(() => err)
           }
+          return authService.refreshToken(refresh_token).pipe(
+            switchMap((res: AuthRefreshTokenResponse) => {
+              localStorage.setItem('token', res.accessToken);
+              localStorage.setItem('refresh_token', res.refreshToken || refresh_token);
+              return next(req.clone(req.clone({
+                setHeaders: {Authorization: `Bearer ${res.accessToken}`}
+              })));
+            }),
+            catchError((err) => {
+              console.error('Error trying to use refresh token')
+              if (err.status == '403' || err.status == '401') {
+                localStorage.removeItem('token');
+                localStorage.removeItem('refresh_token');
+                router.navigate(['/auth/login']);
+              }
+              return throwError(() => err);
+            })
+          )
+        } else if (err.status == 401) {
+          console.error('Unauthorized', err.status, err.error.message);
+          localStorage.removeItem('token');
+          localStorage.removeItem('refresh_token');
+          router.navigate(['/auth/login']);
         } else if (err.status === 500) {
           console.error('Internal Server Error', 'Something went wrong', 500)
         } else {
@@ -55,4 +53,3 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
     })
   );
 };
-

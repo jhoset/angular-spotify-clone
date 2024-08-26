@@ -20,7 +20,6 @@ export class DashboardComponent {
   constructor() {
     this.route.queryParams.subscribe(params => {
       if (params['accessToken'] && params['refreshToken']) {
-        console.log('params', params)
         localStorage.setItem('token', params['accessToken']);
         localStorage.setItem('refresh_token', params['refreshToken']);
         window.history.pushState({}, '', '/home');
