@@ -2,6 +2,7 @@ import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterOutlet} from "@angular/router";
 import {AsideMenuComponent} from "@shared/components/aside-menu/aside-menu.component";
 import {PlayerComponent} from "@shared/components/player/player.component";
+import {NowPlayingComponent} from "@shared/components/now-playing/now-playing.component";
 
 @Component({
   selector: 'app-pages',
@@ -9,7 +10,8 @@ import {PlayerComponent} from "@shared/components/player/player.component";
   imports: [
     RouterOutlet,
     AsideMenuComponent,
-    PlayerComponent
+    PlayerComponent,
+    NowPlayingComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'

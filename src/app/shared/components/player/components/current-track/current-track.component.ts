@@ -1,10 +1,13 @@
 import {Component, input} from '@angular/core';
 import {PlaylistTrack} from "../../../../../dashboard/dashboard.service";
+import {SvgIconComponent} from "angular-svg-icon";
 
 @Component({
   selector: 'app-current-track',
   standalone: true,
-  imports: [],
+  imports: [
+    SvgIconComponent
+  ],
   templateUrl: './current-track.component.html',
 })
 export class CurrentTrackComponent {

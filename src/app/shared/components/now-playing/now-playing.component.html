@@ -1,0 +1,24 @@
+<section class="px-4 py-5 flex flex-col gap-3">
+  <div class="flex justify-between">
+    <h2 class="font-bold line-clamp-1"> {{ playlistForPlayback()?.name }} </h2>
+    <div>
+      ... X
+    </div>
+  </div>
+  <picture class="aspect-square w-full">
+    <img class="object-cover w-full h-full rounded-md"
+         [src]="currentTrack()?.imageUrl || ''"
+         alt="track img">
+  </picture>
+  <div>
+    <h1 class="font-semibold text-2xl text-white line-clamp-1"> {{ currentTrack()?.name }} </h1>
+    <p class="line-clamp-1 text-[#9E9E9E] font-semibold"> {{ currentTrack()?.artistNames?.join(', ') }} </p>
+  </div>
+
+  <app-main-artist-card [artist]="artists()[0]"/>
+
+  <app-credits [artists]="artists()"/>
+
+  <app-next-in-queue />
+
+</section>

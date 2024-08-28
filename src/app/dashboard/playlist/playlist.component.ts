@@ -79,18 +79,22 @@ export class PlaylistComponent {
       onCleanup(() => {
         subscription$.unsubscribe();
       })
-    }, { allowSignalWrites: true});
+    }, {allowSignalWrites: true});
   }
 
   private filterResponseData(data: SpotifyPlaylistTrackResponse): PlaylistTrack[] {
     return data.items.map((item) => {
       return {
         playlistId: this.playlistId(),
-        artists: item.track.artists.map(a => a.name),
+        artists: item.track.artists,
+        artistNames: item.track.artists.map(a => a.name),
         name: item.track.name,
         imageUrl: item.track.album.images ? (item.track.album.images[0].url || item.track.album.images[1].url) : '',
+        smallImageUrl: item.track.album.images ? item.track.album.images[2].url : '',
         previewUrl: item.track.preview_url ?? '',
         trackId: item.track.id,
+        addedAt: item.added_at,
+        duration: item.track.duration_ms,
       }
     })
   }

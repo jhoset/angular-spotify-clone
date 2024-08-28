@@ -1,6 +1,6 @@
 import {computed, inject, Injectable, signal} from '@angular/core';
 import {PlaylistsService} from "@core/services/playlists/playlists.service";
-import {SpotifyPlaylist} from "@core/services/playlists/interfaces";
+import {SpotifyArtist, SpotifyPlaylist} from "@core/services/playlists/interfaces";
 import {catchError, of, tap} from "rxjs";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -191,9 +191,13 @@ export interface PlaylistTrack {
   playlistId: string;
   trackId: string;
   imageUrl: string;
+  smallImageUrl: string;
   previewUrl: string;
   name: string;
-  artists: string[];
+  duration: number;
+  addedAt: string;
+  artistNames: string[];
+  artists: SpotifyArtist[];
 }
 
 export const DASHBOARD_INITIAL_STATE: DashboardState =

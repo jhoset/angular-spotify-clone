@@ -1,0 +1,17 @@
+<div class="rounded-lg overflow-hidden shadow-lg flex flex-col bg-[#1F1F1F] select-none">
+  <picture class="aspect-square w-full h-52 overflow-hidden relative border-none">
+    <img class="object-cover object-center w-full h-full rounded-t-lg border-none"
+         [src]="artist()?.imageUrl || ''"
+         alt="artist img">
+
+    <div class="absolute text-lg top-0 w-full h-full inset-0 bg-gradient-to-b from-black/80 via-[#121212]/0 font-semibold text-white p-2 py-3">
+      About the artist
+    </div>
+  </picture>
+  <div class="px-4 py-4">
+    <div class="font-bold text-xl mb-2 text-white">{{ artist()?.name }}</div>
+    <p class="text-[#9E9E9E] line-clamp-2">
+      {{ artist()?.genres?.join(', ') }}
+    </p>
+  </div>
+</div>
