@@ -23,9 +23,9 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
             switchMap((res: AuthRefreshTokenResponse) => {
               localStorage.setItem('token', res.accessToken);
               localStorage.setItem('refresh_token', res.refreshToken || refresh_token);
-              return next(req.clone(req.clone({
+              return next(req.clone({
                 setHeaders: {Authorization: `Bearer ${res.accessToken}`}
-              })));
+              }));
             }),
             catchError((err) => {
               console.error('Error trying to use refresh token')

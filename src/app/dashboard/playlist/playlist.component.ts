@@ -79,7 +79,7 @@ export class PlaylistComponent {
       onCleanup(() => {
         subscription$.unsubscribe();
       })
-    });
+    }, { allowSignalWrites: true});
   }
 
   private filterResponseData(data: SpotifyPlaylistTrackResponse): PlaylistTrack[] {
