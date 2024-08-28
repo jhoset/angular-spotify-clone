@@ -1,0 +1,14 @@
+#container {
+  display: block;
+  max-height: calc(100vh - 190px);
+  overflow-y: auto;
+  &::-webkit-scrollbar-thumb {
+    visibility: hidden;
+  }
+}
+
+#container {
+  &:hover::-webkit-scrollbar-thumb {
+    visibility: visible;
+  }
+}

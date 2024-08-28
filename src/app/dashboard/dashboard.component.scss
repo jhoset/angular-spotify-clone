@@ -2,7 +2,7 @@
   display: grid;
   grid-template-areas:
       "header header header"
-      "aside-menu main track-info"
+      "aside-menu main now-playing"
       "player player player";
   grid-template-columns: 350px 1fr 350px;
   grid-template-rows: auto 1fr auto;
