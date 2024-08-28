@@ -30,4 +30,4 @@
 <td class="px-3 py-2">
   <span class="line-clamp-1 text-sm">{{ track().name }}</span>
 </td>
-<td class="px-3 py-2 rounded-r-md text-right text-sm">{{ '29:56' }}</td>
+<td class="px-3 py-2 rounded-r-md text-right text-sm">{{ Number(track().duration) | durationTime:'ms' }}</td>

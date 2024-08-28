@@ -1,9 +1,10 @@
 import {Component, computed, inject, input} from '@angular/core';
 import {DashboardService, PlaylistTrack} from "../../../dashboard.service";
-import {NgClass} from "@angular/common";
+import {DecimalPipe, NgClass} from "@angular/common";
 import {CardPlayButtonComponent} from "../../../home/components/card-play-button/card-play-button.component";
 import {SvgIconComponent} from "angular-svg-icon";
 import {TrackItemPlayButtonComponent} from "../track-item-play-button/track-item-play-button.component";
+import {DurationTimePipe} from "@shared/pipes/duration-time.pipe";
 
 @Component({
   selector: '[appTrackListItem]',
@@ -12,7 +13,9 @@ import {TrackItemPlayButtonComponent} from "../track-item-play-button/track-item
     NgClass,
     CardPlayButtonComponent,
     SvgIconComponent,
-    TrackItemPlayButtonComponent
+    TrackItemPlayButtonComponent,
+    DurationTimePipe,
+    DecimalPipe
   ],
   templateUrl: './track-list-item.component.html'
 })
@@ -30,4 +33,5 @@ export class TrackListItemComponent {
   public isSelectedCurrentTrack = computed(() => {
     return this.currentTrack()?.trackId == this.track().trackId;
   })
+  protected readonly Number = Number;
 }
