@@ -1,6 +1,7 @@
 import {Component, inject} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, NavigationStart, Router, RouterOutlet} from '@angular/router';
 import {CustomIconRegistryService} from "@shared/services/custom-icon-registry.service";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-root',
@@ -11,8 +12,27 @@ import {CustomIconRegistryService} from "@shared/services/custom-icon-registry.s
 })
 export class AppComponent {
   private _iconRegistry: CustomIconRegistryService = inject(CustomIconRegistryService);
+  private route: ActivatedRoute = inject(ActivatedRoute);
+  private router: Router = inject(Router);
 
   constructor() {
+    this.router.events.pipe(
+      takeUntilDestroyed()
+    ).subscribe(event => {
+      if (event instanceof NavigationStart) {
+        const params = new URLSearchParams(event.url.split('?')[1]); // Extract query string
+        const accessToken = params.get('accessToken');
+        const refreshToken = params.get('refreshToken');
+        if (!accessToken || !refreshToken) return;
+        localStorage.setItem('token', accessToken);
+        localStorage.setItem('refresh_token', refreshToken);
+        window.history.pushState({}, '', '/home');
+      }
+    });
+    this.registerIcons();
+  }
+
+  public registerIcons() {
     this._iconRegistry.addSvgIcon('library');
     this._iconRegistry.addSvgIcon('home');
     this._iconRegistry.addSvgIcon('pause');
