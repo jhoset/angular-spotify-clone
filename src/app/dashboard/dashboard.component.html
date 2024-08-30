@@ -1,13 +1,17 @@
-<div id="dashboard" class="relative h-screen p-2 gap-2 flex">
+<div id="dashboard" class="relative h-screen p-2 gap-y-2 flex">
   <header class="[grid-area:header] min-h-[72px]">
-    HEADER
+    <app-top-nav/>
   </header>
   <aside class="[grid-area:aside-menu]">
-    <app-aside-menu class="flex h-full"/>
+    <app-aside-menu class="flex h-full w-full"/>
   </aside>
+  <div appResizable [resizeTarget]="'prev'" [minWidth]="200"
+       class="resizer [grid-area:resizer-1] select-none" id="resizer-1"></div>
   <main class="[grid-area:main] h-full rounded-lg overflow-y-auto  bg-[#121212]">
     <router-outlet></router-outlet>
   </main>
+  <div appResizable [resizeTarget]="'next'" [minWidth]="250"
+       class="resizer [grid-area:resizer-2] select-none" id="resizer-2"></div>
   <aside class="[grid-area:now-playing] rounded-lg flex flex-col overflow-y-auto bg-[#121212]">
     <app-now-playing/>
   </aside>

@@ -1,9 +1,16 @@
 #dashboard {
   display: grid;
   grid-template-areas:
-      "header header header"
-      "aside-menu main now-playing"
-      "player player player";
-  grid-template-columns: 350px 1fr 350px;
+      "header header header header header"
+      "aside-menu  resizer-1 main  resizer-2 now-playing"
+      "player player player player player";
+  grid-template-columns: 350px 8px 1fr 8px 350px;
   grid-template-rows: auto 1fr auto;
+}
+
+.resizer {
+  background-color: transparent;
+  cursor: col-resize;
+  z-index: 1;
+  position: relative;
 }

@@ -31,5 +31,8 @@ export class AppComponent {
     this._iconRegistry.addSvgIcon('prev');
     this._iconRegistry.addSvgIcon('repeat');
     this._iconRegistry.addSvgIcon('shuffle');
+    this._iconRegistry.addSvgIcon('logo');
+    this._iconRegistry.addSvgIcon('github');
+    this._iconRegistry.addSvgIcon('logout');
   }
 }

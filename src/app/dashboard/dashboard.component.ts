@@ -3,6 +3,8 @@ import {ActivatedRoute, RouterOutlet} from "@angular/router";
 import {AsideMenuComponent} from "@shared/components/aside-menu/aside-menu.component";
 import {PlayerComponent} from "@shared/components/player/player.component";
 import {NowPlayingComponent} from "@shared/components/now-playing/now-playing.component";
+import {ResizableDirective} from "@shared/directives/resizable.directive";
+import {TopNavComponent} from "@shared/components/top-nav/top-nav.component";
 
 @Component({
   selector: 'app-pages',
@@ -11,7 +13,9 @@ import {NowPlayingComponent} from "@shared/components/now-playing/now-playing.co
     RouterOutlet,
     AsideMenuComponent,
     PlayerComponent,
-    NowPlayingComponent
+    NowPlayingComponent,
+    ResizableDirective,
+    TopNavComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
