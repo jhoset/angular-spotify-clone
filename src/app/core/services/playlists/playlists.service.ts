@@ -39,13 +39,14 @@ export class PlaylistsService {
     // @ts-ignore
     return this.http.get<SpotifyPlaylistResponse>(`${this.baseSpotifyApiUrl}/me/playlists`, {params})
       .pipe(
-        map(response => {
-          response.items.forEach((playList: SpotifyPlaylist) => {
+        map(res => {
+          res.items.forEach((playList: SpotifyPlaylist) => {
             const randomIndex = Math.floor(Math.random() * COLOR_KEYS.length);
             const colorKey = COLOR_KEYS[randomIndex];
             playList.color = COLORS[colorKey];
           });
-          return response;
+          res.items = res.items.filter((item: any) => item.tracks.total > 0)
+          return res;
         })
       );
   }
@@ -66,7 +67,6 @@ export class PlaylistsService {
             const colorKey = COLOR_KEYS[randomIndex];
             playList.color = COLORS[colorKey];
           });
-          res.playlists.items = res.playlists.items.filter(item => item.tracks.total)
           return res;
         })
       );
