@@ -6,6 +6,7 @@ import {
   SpotifyPlaylist, SpotifyPlaylistImageResponse,
   SpotifyPlaylistTrackResponse
 } from "@core/services/playlists/interfaces";
+import {environment} from "../../../../environments/environment.development";
 
 const COLORS: { [key: string]: any } = {
   red: {accent: "#da2735", dark: "#7f1d1d"},
@@ -28,6 +29,7 @@ const COLOR_KEYS: string[] = Object.keys(COLORS);
 })
 export class PlaylistsService {
   private http: HttpClient = inject(HttpClient);
+  private baseSpotifyApiUrl = `${environment.SPOTIFY_API_URL}`
 
   getCurrentUserPlaylists(limit: number = 20, offset: number = 0) {
     let params = new HttpParams();
@@ -35,7 +37,7 @@ export class PlaylistsService {
     params = params.set('offset', offset.toString());
 
     // @ts-ignore
-    return this.http.get<SpotifyPlaylistResponse>('https://api.spotify.com/v1/me/playlists', {params})
+    return this.http.get<SpotifyPlaylistResponse>(`${this.baseSpotifyApiUrl}/me/playlists`, {params})
       .pipe(
         map(response => {
           response.items.forEach((playList: SpotifyPlaylist) => {
@@ -56,7 +58,7 @@ export class PlaylistsService {
       params = params.set('locale', locale);
     }
 
-    return this.http.get<SpotifyFeaturedPlaylistResponse>('https://api.spotify.com/v1/browse/featured-playlists', {params})
+    return this.http.get<SpotifyFeaturedPlaylistResponse>(`${this.baseSpotifyApiUrl}/browse/featured-playlists`, {params})
       .pipe(
         map(response => {
           response.playlists.items.forEach((playList: SpotifyPlaylist) => {
@@ -74,7 +76,7 @@ export class PlaylistsService {
     params = params.set('limit', limit);
     params = params.set('offset', offset);
 
-    const url = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
+    const url = `${this.baseSpotifyApiUrl}/playlists/${playlistId}/tracks`;
 
     return this.http.get<SpotifyPlaylistTrackResponse>(url, {params: params}).pipe(
       map(res => {
@@ -91,7 +93,7 @@ export class PlaylistsService {
   }
 
   getPlaylistCoverImage(playlistId: string) {
-    const url = `https://api.spotify.com/v1/playlists/${playlistId}/images`;
+    const url = `${this.baseSpotifyApiUrl}/playlists/${playlistId}/images`;
     return this.http.get<SpotifyPlaylistImageResponse[]>(url).pipe(map(rs => {
       if (rs.length) {
         return rs[0];
@@ -101,7 +103,7 @@ export class PlaylistsService {
   }
 
   getPreviewUrl(trackId: string) {
-    const url = `http://localhost:3000/api/track-preview/${trackId}`;
+    const url = `${environment.SERVER_URL}/api/track-preview/${trackId}`;
     return this.http.get(url, {responseType: 'text'});
   }
 

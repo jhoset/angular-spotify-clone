@@ -1,2 +1,21 @@
-<p>login works!</p>
-<a [href]="url"  class="text-3xl text-green-500"> LOGIN WITH SPOTIFY </a>
+<div class="flex w-full h-[100vh] justify-center items-center relative ">
+  <div class="bg-[#121212] p-10 py-14 rounded-lg min-w-96">
+    <div class="flex flex-col items-center gap-2">
+      <svg-icon class="animate-fade-down" [svgClass]="'h-20'" name="logo"></svg-icon>
+      <h1 class="animate-fade text-3xl font-semibold">Spoti App</h1>
+    </div>
+    <hr class="h-px my-8 bg-zinc-800 border-0 ">
+    <div class="flex justify-center animate-fade">
+      <a role="button" [href]="url"
+         class="text- font-bold p-6 py-4 text-black rounded-full bg-[#1ED760] hover:scale-105 transition-all duration-300">
+        Login with Spotify
+      </a>
+    </div>
+    <p class="animate-fade animate-delay-300 text-center text-gray-400 mt-8 text-sm">
+      This is a non-commercial Spotify clone <br> built for educational purposes.
+    </p>
+
+  </div>
+  <div class="absolute inset-0 bg-gradient-to-t from-[#080808] to-[#282828] -z-10"></div>
+</div>
+

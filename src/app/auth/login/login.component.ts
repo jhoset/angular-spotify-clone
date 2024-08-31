@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
+import {SvgIconComponent} from "angular-svg-icon";
+import {environment} from "../../../environments/environment.development";
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [],
+  imports: [
+    SvgIconComponent
+  ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  public url = 'http://localhost:3000/api/auth/login'
+  public url = `${environment.SERVER_URL}/api/auth/login`;
 }
