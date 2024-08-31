@@ -34,7 +34,6 @@ export class CardPlayButtonComponent implements AfterViewInit {
       map(rs => this.filterResponseData(rs)),
       takeUntilDestroyed(this.destroyRef)
     ).subscribe(rs => {
-      console.log('Setting signal')
       this.playlistTracks.set(rs);
     });
   }

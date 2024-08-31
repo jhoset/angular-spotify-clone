@@ -62,13 +62,11 @@ export class PlayerComponent implements AfterViewInit, OnDestroy {
 
     effect(() => {
       if (!this.audioElement()) return;
-      console.log('effect -> isPlaying:', this.isPlaying())
       this.isPlaying() ? this.audioElement()!.play() : this.audioElement()!.pause();
     });
 
     effect(() => {
       if (!this.audioElement() || !this.currentTrack()) return;
-      console.log('effect -> currentTrack:', this.currentTrack())
       if (!this.audioElement()?.paused) this.audioElement()!.pause();
       this.audioElement()!.src = this.currentTrack()!.previewUrl;
       this.audioElement()!.load();
@@ -76,7 +74,6 @@ export class PlayerComponent implements AfterViewInit, OnDestroy {
     }, {allowSignalWrites: true});
 
     effect(() => {
-      console.log('effect -> playerVolume:', this.playerVolume())
       this.audioElement()!.volume = this.playerVolume();
     });
 
@@ -102,7 +99,6 @@ export class PlayerComponent implements AfterViewInit, OnDestroy {
   }
 
   public handleEnd = () => {
-    console.log('end')
     this.dashboardService.setIsPlaying(false);
     const nextTrack = this.getNextTrack();
     if (nextTrack) {
