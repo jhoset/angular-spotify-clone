@@ -16,6 +16,7 @@ export class NowPlayingIndicatorComponent {
   public dashboardService = inject(DashboardService);
   //? SIGNALS
   public displayNowPlayingView = this.dashboardService.displayNowPlayingView;
+  public currentTrack = this.dashboardService.currentTrack;
 
   public onToggleView() {
     if (!this.displayNowPlayingView()) {

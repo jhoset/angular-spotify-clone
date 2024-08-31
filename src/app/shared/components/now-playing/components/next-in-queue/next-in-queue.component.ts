@@ -2,6 +2,7 @@ import {Component, computed, inject} from '@angular/core';
 import {DashboardService, PlaylistTrack} from "../../../../../dashboard/dashboard.service";
 import {DecimalPipe} from "@angular/common";
 import {SvgIconComponent} from "angular-svg-icon";
+import {ImgFallbackDirective} from "@shared/directives/img-fallback.directive";
 
 @Component({
   selector: 'app-next-in-queue',
@@ -9,6 +10,7 @@ import {SvgIconComponent} from "angular-svg-icon";
   imports: [
     DecimalPipe,
     SvgIconComponent,
+    ImgFallbackDirective,
   ],
   templateUrl: './next-in-queue.component.html',
 })

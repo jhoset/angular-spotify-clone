@@ -22,7 +22,7 @@ export class HideDisplayDirective implements AfterViewInit{
       const columns = computedStyle.getPropertyValue('grid-template-columns').split(' ');
       if (!this.displayNowPlayingView()) {
         this.previousValue = columns[4];
-        this.parentElement.style.gridTemplateColumns = `${columns[0]} 8px 1fr 8px 0px`;
+        this.parentElement.style.gridTemplateColumns = `${columns[0]} 8px 1fr 0px 0px`;
       } else {
         this.parentElement.style.gridTemplateColumns = `${columns[0]} 8px 1fr 8px ${this.previousValue}`;
       }

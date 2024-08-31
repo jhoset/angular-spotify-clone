@@ -4,6 +4,7 @@ import {SpotifyPlaylist} from "@core/services/playlists/interfaces";
 import {CardPlayButtonComponent} from "../card-play-button/card-play-button.component";
 import {DashboardService} from "../../../dashboard.service";
 import {NgClass} from "@angular/common";
+import {ImgFallbackDirective} from "@shared/directives/img-fallback.directive";
 
 @Component({
   selector: 'app-playlist-card',
@@ -11,7 +12,8 @@ import {NgClass} from "@angular/common";
   imports: [
     RouterLink,
     CardPlayButtonComponent,
-    NgClass
+    NgClass,
+    ImgFallbackDirective
   ],
   templateUrl: './playlist-card.component.html',
 })

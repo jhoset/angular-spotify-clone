@@ -5,6 +5,7 @@ import {CardPlayButtonComponent} from "../../../home/components/card-play-button
 import {SvgIconComponent} from "angular-svg-icon";
 import {TrackItemPlayButtonComponent} from "../track-item-play-button/track-item-play-button.component";
 import {DurationTimePipe} from "@shared/pipes/duration-time.pipe";
+import {ImgFallbackDirective} from "@shared/directives/img-fallback.directive";
 
 @Component({
   selector: '[appTrackListItem]',
@@ -15,7 +16,8 @@ import {DurationTimePipe} from "@shared/pipes/duration-time.pipe";
     SvgIconComponent,
     TrackItemPlayButtonComponent,
     DurationTimePipe,
-    DecimalPipe
+    DecimalPipe,
+    ImgFallbackDirective
   ],
   templateUrl: './track-list-item.component.html'
 })

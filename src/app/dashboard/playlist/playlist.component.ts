@@ -14,6 +14,7 @@ import {UsersService} from "@core/services/users/users.service";
 import {DecimalPipe, NgClass} from "@angular/common";
 import {TrackListComponent} from "./components/track-list/track-list.component";
 import {PlayButtonComponent} from "./components/play-button/play-button.component";
+import {ImgFallbackDirective} from "@shared/directives/img-fallback.directive";
 
 @Component({
   selector: 'app-playlist',
@@ -23,7 +24,8 @@ import {PlayButtonComponent} from "./components/play-button/play-button.componen
     DecimalPipe,
     TrackListComponent,
     PlayButtonComponent,
-    NgClass
+    NgClass,
+    ImgFallbackDirective
   ],
   templateUrl: './playlist.component.html',
 })

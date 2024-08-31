@@ -1,4 +1,5 @@
-import {AfterViewInit, Directive, ElementRef, HostListener, input} from '@angular/core';
+import {AfterViewInit, Directive, ElementRef, HostListener, inject, input} from '@angular/core';
+import {DashboardService} from "../../dashboard/dashboard.service";
 
 @Directive({
   selector: '[appResizable]',

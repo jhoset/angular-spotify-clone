@@ -19,4 +19,5 @@ export class HomeComponent {
   private dashboardService = inject(DashboardService);
   //? SIGNALS
   public topSixPlaylists = this.dashboardService.topSixPlaylists;
+  public isLoading = this.dashboardService.isLoading;
 }

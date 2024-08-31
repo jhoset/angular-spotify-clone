@@ -7,7 +7,7 @@
       </button>
     </div>
     <picture class="aspect-auto rounded-lg w-full">
-      <img class="object-cover w-full rounded-lg"
+      <img appImgFallback class="object-cover w-full rounded-lg"
            [src]="currentTrack()?.imageUrl || ''"
            alt="track img">
     </picture>

@@ -13,7 +13,7 @@
   <tbody class="block h-[calc(100vh-600px)] w-full">
   <tr class="h-[16px]"></tr>
     @for (track of tracks(); track track.trackId) {
-      <tr class="relative group hover:bg-[#2A2A2A] rounded-md text-[#B3B3B3] transition duration-200"
+      <tr class="animate-fade relative group hover:bg-[#2A2A2A] rounded-md text-[#B3B3B3] transition duration-200"
           appTrackListItem [index]="$index" [track]="track">
       </tr>
     } @empty {

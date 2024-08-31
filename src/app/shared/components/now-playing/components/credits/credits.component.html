@@ -2,9 +2,9 @@
   <h3 class="font-semibold text-lg"> Credits </h3>
   @if (!isLoading()) {
     @for (artist of artists(); track artist.artistId) {
-      <div class="flex gap-2 mt-3 items-center">
+      <div class="animate-fade  flex gap-2 mt-3 items-center">
         <picture class="aspect-auto rounded-full w-11 h-11 overflow-hidden relative border-none">
-          <img class="object-cover object-center w-full h-full rounded-t-lg border-none"
+          <img appImgFallback class="object-cover object-center w-full h-full rounded-t-lg border-none"
                [src]="artist?.smallImageUrl || ''"
                alt="artist img">
         </picture>
@@ -15,7 +15,7 @@
 
       </div>
     } @empty {
-      <h4 class="font-semibold"> No artist found </h4>
+      <h4 class="font-semibold"> No artists found </h4>
     }
   } @else {
     <div role="status" class="animate-pulse flex gap-2 mt-3 items-center">

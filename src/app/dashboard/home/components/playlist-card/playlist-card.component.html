@@ -1,18 +1,18 @@
 <article
-  class="group relative hover:bg-zinc-800 shadow-lg hover:shadow-xl bg-zinc-500/30 rounded-md transition-all duration-300">
+  class="group relative hover:bg-zinc-700/50 cursor-pointer  hover:shadow-xl rounded-md transition-all duration-300">
   <div
     [ngClass]=" isPlayingPlaylist() ? 'opacity-100 translate-y-0': 'opacity-0 translate-y-4 group-hover:translate-y-0 group-hover:opacity-100 z'"
     class="absolute right-4 bottom-20 transition-all duration-500 z-10">
     <app-card-play-button [playlist]="playlist()"/>
   </div>
 
-  <a class="playlist-item transition-all duration-300 flex relative p-2 overflow-hidden gap-2 pb-4
+  <a class="playlist-item transition-all duration-300 flex relative p-2.5 overflow-hidden gap-2 pb-4
           w-44 flex-col"
      (click)="goToPlaylistView(playlist().id)"
      [style.view-transition-name]="'pl-box-' + playlist().id">
     <picture class="aspect-square w-full h-full flex-none">
       @if (playlist().images) {
-        <img class="object-cover w-full h-full rounded-md"
+        <img appImgFallback class="object-cover w-full h-full rounded-md"
              [src]="playlist().images[0].url"
              [style.view-transition-name]="'pl-img-' + playlist().id"
              alt="playlist image">
@@ -25,7 +25,7 @@
       }
     </picture>
     <div class="flex flex-auto flex-col px-2">
-      <h4 class="text-[#FDFDFD]" [style.view-transition-name]="'pl-title-' + playlist().id"> {{ playlist().name }} </h4>
+      <h4 class="text-[#FDFDFD] line-clamp-1" [style.view-transition-name]="'pl-title-' + playlist().id"> {{ playlist().name }} </h4>
       <span class="text-sm text-[#A4A4A4]" [style.view-transition-name]="'pl-owner-' + playlist().id">
       {{ playlist().owner.display_name }}
     </span>

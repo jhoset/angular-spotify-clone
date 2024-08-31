@@ -21,4 +21,5 @@ export class AsideMenuComponent {
   public dashboardService = inject(DashboardService);
   //? SIGNALS
   public playlists = this.dashboardService.playlists;
+  public isLoading = this.dashboardService.isLoading;
 }

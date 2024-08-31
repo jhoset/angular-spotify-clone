@@ -2,7 +2,7 @@
   <h3 class="font-semibold text-lg"> Next in Queue </h3>
   <div class="group px-2 rounded-lg py-2 gap-3 flex items-center hover:bg-[#2A2A2A]">
     <picture class="relative w-12 h-12">
-      <img [src]="nextTrack()?.smallImageUrl" alt="nextTrack banner" class="h-full w-full rounded-md">
+      <img appImgFallback [src]="nextTrack()?.smallImageUrl" alt="nextTrack banner" class="h-full w-full rounded-md">
       <div class="absolute w-full h-full top-1/2 transition-all rounded-md -translate-y-1/2  group-hover:bg-black/70 z-10"></div>
       <button class="absolute w-7 h-7 left-1/2 -translate-x-1/2 top-1/2 transition-all -translate-y-1/2  duration-200 opacity-0
               group-hover:opacity-100 hover:scale-105 z-10 flex justify-center items-center text-white"

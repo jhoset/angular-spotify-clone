@@ -1,7 +1,7 @@
-<div class="rounded-lg overflow-hidden shadow-lg flex flex-col bg-[#1F1F1F] select-none">
+<div class="animate-fade rounded-lg overflow-hidden shadow-lg flex flex-col bg-[#1F1F1F] select-none">
   @if (!isLoading()) {
     <picture class="aspect-square w-full h-52 overflow-hidden relative border-none">
-      <img class="object-cover object-center w-full h-full rounded-t-lg border-none"
+      <img appImgFallback class="object-cover object-center w-full h-full rounded-t-lg border-none"
            [src]="artist()?.imageUrl || ''"
            alt="artist img">
 

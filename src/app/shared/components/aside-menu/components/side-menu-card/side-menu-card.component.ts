@@ -2,12 +2,14 @@ import {Component, inject, input} from '@angular/core';
 import {SpotifyPlaylist} from "@core/services/playlists/interfaces";
 import {Router, RouterLink} from "@angular/router";
 import {DashboardService} from "../../../../../dashboard/dashboard.service";
+import {ImgFallbackDirective} from "@shared/directives/img-fallback.directive";
 
 @Component({
   selector: 'app-side-menu-card',
   standalone: true,
   imports: [
-    RouterLink
+    RouterLink,
+    ImgFallbackDirective
   ],
   templateUrl: './side-menu-card.component.html',
 })

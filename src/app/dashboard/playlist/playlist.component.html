@@ -6,7 +6,7 @@
     @if (playlistSelected()) {
       <picture class="aspect-square w-52 h-52 flex-none">
         @if (playlistSelected()?.images) {
-          <img class="object-cover w-full h-full rounded-md shadow-lg"
+          <img appImgFallback class="object-cover w-full h-full rounded-md shadow-lg"
                [src]="playlistSelected()!.images[0].url"
                [style.view-transition-name]="'pl-img-' + playlistSelected()!.id"
                alt="playlist image">

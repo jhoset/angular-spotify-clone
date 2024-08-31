@@ -9,6 +9,7 @@ import {
 import {CreditsComponent} from "@shared/components/now-playing/components/credits/credits.component";
 import {NextInQueueComponent} from "@shared/components/now-playing/components/next-in-queue/next-in-queue.component";
 import {SvgIconComponent} from "angular-svg-icon";
+import {ImgFallbackDirective} from "@shared/directives/img-fallback.directive";
 
 @Component({
   selector: 'app-now-playing',
@@ -17,7 +18,8 @@ import {SvgIconComponent} from "angular-svg-icon";
     MainArtistCardComponent,
     CreditsComponent,
     NextInQueueComponent,
-    SvgIconComponent
+    SvgIconComponent,
+    ImgFallbackDirective
   ],
   templateUrl: './now-playing.component.html',
   styleUrl: './now-playing.component.scss'
@@ -63,7 +65,6 @@ export class NowPlayingComponent {
   }
 
   public onCloseView() {
-    console.log('Settting...')
     this.dashboardService.setDisplayNowPlayingView(false);
   }
 }

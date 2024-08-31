@@ -6,6 +6,8 @@ import {NowPlayingComponent} from "@shared/components/now-playing/now-playing.co
 import {ResizableDirective} from "@shared/directives/resizable.directive";
 import {TopNavComponent} from "@shared/components/top-nav/top-nav.component";
 import {HideDisplayDirective} from "./directives/hide-display.directive";
+import {DashboardService} from "./dashboard.service";
+import {NgClass} from "@angular/common";
 
 @Component({
   selector: 'app-pages',
@@ -17,7 +19,8 @@ import {HideDisplayDirective} from "./directives/hide-display.directive";
     NowPlayingComponent,
     ResizableDirective,
     TopNavComponent,
-    HideDisplayDirective
+    HideDisplayDirective,
+    NgClass
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'

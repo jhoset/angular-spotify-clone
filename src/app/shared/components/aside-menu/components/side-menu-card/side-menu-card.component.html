@@ -1,8 +1,8 @@
-<a class="playlist-item flex relative p-2 overflow-hidden items-center gap-4 rounded-md hover:bg-zinc-800 select-none"
+<a class="animate-fade playlist-item flex relative p-2 overflow-hidden items-center gap-4 rounded-md hover:bg-zinc-800 select-none"
    (click)="goToPlaylistView(playlist().id)">
   <picture class="h-12 w-12 flex-none">
     @if (playlist().images) {
-      <img class="object-cover w-full h-full rounded-md"
+      <img appImgFallback class="object-cover w-full h-full rounded-md"
            [src]="playlist().images[0].url"
            alt="playlist image">
     } @else {
