@@ -1,27 +1,27 @@
-# SpotifyClient
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.7.
+This project is the frontend for a Spotify clone, built with the latest version of Angular (v18) & Tailwind CSS. It leverages modern Angular features, including signals for efficient reactivity and change detection. The application provides a user-friendly interface for browsing music, managing playlists, and playing songs.
+
+![image](https://github.com/user-attachments/assets/6dce4e27-c096-4c8d-9097-610013ebec49)
+
+
+
+
+**Key Features:**
+
+* **Modern Angular Architecture:** Utilizes signals (a new reactivity primitive in Angular) for improved performance and a simpler development experience. 
+* **Redux-like State Management:**  Implements a centralized store for managing global application state, similar to Redux, providing predictable state updates and improved code organization.
+* **Music Playback:**  Allows users to play music from their Spotify playlists (requires authentication via the backend).
+* **Component-Based UI:**  Built with a reusable component structure, promoting code maintainability and scalability.
+* **Rich User Interface:**  Includes custom directives and components to create an engaging and interactive Spotify-like experience.
+
+
+
+
 
 ## Development server
+This frontend application is designed to work in conjunction with the Spotify Server backend. Ensure the backend is running and properly configured.
+- Create a .env file based on .env.template file
+- `npm start`: Starts the development server.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
