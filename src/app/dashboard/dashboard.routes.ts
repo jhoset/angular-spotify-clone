@@ -11,10 +11,12 @@ export const DASHBOARD_ROUTES: Routes = [
       {
         path: 'home',
         component: HomeComponent,
+        title: 'Home'
       },
       {
         path: 'playlist/:id',
-        component: PlaylistComponent
+        component: PlaylistComponent,
+        title: 'Playlist'
       },
       {
         path: '**',
