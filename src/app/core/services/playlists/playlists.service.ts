@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {lastValueFrom, map} from "rxjs";
+import {filter, lastValueFrom, map} from "rxjs";
 import {
   SpotifyFeaturedPlaylistResponse,
   SpotifyPlaylist, SpotifyPlaylistImageResponse,
@@ -60,13 +60,14 @@ export class PlaylistsService {
 
     return this.http.get<SpotifyFeaturedPlaylistResponse>(`${this.baseSpotifyApiUrl}/browse/featured-playlists`, {params})
       .pipe(
-        map(response => {
-          response.playlists.items.forEach((playList: SpotifyPlaylist) => {
+        map(res => {
+          res.playlists.items.forEach((playList: SpotifyPlaylist) => {
             const randomIndex = Math.floor(Math.random() * COLOR_KEYS.length);
             const colorKey = COLOR_KEYS[randomIndex];
             playList.color = COLORS[colorKey];
           });
-          return response;
+          res.playlists.items = res.playlists.items.filter(item => item.tracks.total)
+          return res;
         })
       );
   }
