@@ -14,3 +14,7 @@
   z-index: 1;
   position: relative;
 }
+
+#dashboard.hide-now-playing {
+  grid-template-columns: 350px 8px 1fr 8px 0px;
+}

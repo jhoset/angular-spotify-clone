@@ -8,6 +8,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 
 export interface DashboardState {
   isLoading: boolean;
+  displayNowPlayingView: boolean;
   playlists: SpotifyPlaylist[];
   player: PlayerState;
   playlistSelected: PlaylistSelectedState;
@@ -25,6 +26,7 @@ export class DashboardService {
   private state = signal<DashboardState>(DASHBOARD_INITIAL_STATE)
   //*************************************************** SELECTORS ******************************************************
   public isLoading = computed(() => this.state().isLoading);
+  public displayNowPlayingView = computed(() => this.state().displayNowPlayingView)
   public playlists = computed(() => this.state().playlists);
   public error = computed(() => this.state().error);
   //? SELECTED PLAYLIST
@@ -55,6 +57,10 @@ export class DashboardService {
   //**************************************************** ACTIONS *******************************************************
   public setIsLoading(newValue: boolean) {
     this.state.update((state) => ({...state, isLoading: newValue}));
+  }
+
+  public setDisplayNowPlayingView(newValue: boolean) {
+    this.state.update((state) => ({...state, displayNowPlayingView: newValue}));
   }
 
   public setPlaylists(newValue: SpotifyPlaylist[]) {
@@ -203,6 +209,7 @@ export interface PlaylistTrack {
 export const DASHBOARD_INITIAL_STATE: DashboardState =
   {
     isLoading: false,
+    displayNowPlayingView: false,
     playlists: [],
     playlistSelected: {
       tracks: [],

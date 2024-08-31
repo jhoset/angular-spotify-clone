@@ -38,9 +38,7 @@
   </div>
 
   <div class="flex gap-4 justify-end items-center w-[350px]">
-    <button disabled class="opacity-30">
-      <svg-icon name="now-playing"/>
-    </button>
+    <app-now-playing-indicator/>
     <button disabled class="opacity-30">
       <svg-icon name="queue"/>
     </button>
@@ -48,7 +46,7 @@
       <svg-icon name="connect-device"/>
     </button>
     <app-volume-control/>
-    <button title="Full screen" class="opacity-70 hover:opacity-100 transition-all duration-300">
+    <button appTooltip [title]="'Full screen'" class="opacity-70 hover:opacity-100 transition-all duration-300">
       <svg-icon name="full-screen"/>
     </button>
   </div>

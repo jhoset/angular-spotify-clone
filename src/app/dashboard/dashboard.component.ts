@@ -5,6 +5,7 @@ import {PlayerComponent} from "@shared/components/player/player.component";
 import {NowPlayingComponent} from "@shared/components/now-playing/now-playing.component";
 import {ResizableDirective} from "@shared/directives/resizable.directive";
 import {TopNavComponent} from "@shared/components/top-nav/top-nav.component";
+import {HideDisplayDirective} from "./directives/hide-display.directive";
 
 @Component({
   selector: 'app-pages',
@@ -15,7 +16,8 @@ import {TopNavComponent} from "@shared/components/top-nav/top-nav.component";
     PlayerComponent,
     NowPlayingComponent,
     ResizableDirective,
-    TopNavComponent
+    TopNavComponent,
+    HideDisplayDirective
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'

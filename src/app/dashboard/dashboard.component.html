@@ -12,7 +12,7 @@
   </main>
   <div appResizable [resizeTarget]="'next'" [minWidth]="250"
        class="resizer [grid-area:resizer-2] select-none" id="resizer-2"></div>
-  <aside class="[grid-area:now-playing] rounded-lg flex flex-col overflow-y-auto bg-[#121212]">
+  <aside appHideDisplay class="[grid-area:now-playing] rounded-lg flex flex-col overflow-y-auto bg-[#121212]">
     <app-now-playing/>
   </aside>
   <footer class="[grid-area:player] min-h-[72px]">

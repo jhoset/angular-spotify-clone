@@ -17,6 +17,9 @@ import {
 } from "@shared/components/player/components/playback-control/playback-control.component";
 import {NgClass} from "@angular/common";
 import {CustomRangeSliderComponent} from "@shared/components/custom-range-slider/custom-range-slider.component";
+import {
+  NowPlayingIndicatorComponent
+} from "@shared/components/player/components/now-playing-indicator/now-playing-indicator.component";
 
 @Component({
   selector: 'app-player',
@@ -27,7 +30,8 @@ import {CustomRangeSliderComponent} from "@shared/components/custom-range-slider
     VolumeControlComponent,
     PlaybackControlComponent,
     NgClass,
-    CustomRangeSliderComponent
+    CustomRangeSliderComponent,
+    NowPlayingIndicatorComponent,
   ],
   templateUrl: './player.component.html'
 })
@@ -68,7 +72,8 @@ export class PlayerComponent implements AfterViewInit, OnDestroy {
       if (!this.audioElement()?.paused) this.audioElement()!.pause();
       this.audioElement()!.src = this.currentTrack()!.previewUrl;
       this.audioElement()!.load();
-    });
+      this.dashboardService.setDisplayNowPlayingView(true)
+    }, {allowSignalWrites: true});
 
     effect(() => {
       console.log('effect -> playerVolume:', this.playerVolume())

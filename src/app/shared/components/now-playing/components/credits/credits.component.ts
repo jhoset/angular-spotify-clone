@@ -11,5 +11,6 @@ import {ArtistInfo} from "@shared/components/now-playing/now-playing.component";
   templateUrl: './credits.component.html',
 })
 export class CreditsComponent {
-  public artists = input.required<ArtistInfo[]>()
+  public artists = input.required<ArtistInfo[]>();
+  public isLoading = input.required();
 }

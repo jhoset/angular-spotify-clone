@@ -1,17 +1,33 @@
 <div class="rounded-lg overflow-hidden shadow-lg flex flex-col bg-[#1F1F1F] select-none">
-  <picture class="aspect-square w-full h-52 overflow-hidden relative border-none">
-    <img class="object-cover object-center w-full h-full rounded-t-lg border-none"
-         [src]="artist()?.imageUrl || ''"
-         alt="artist img">
+  @if (!isLoading()) {
+    <picture class="aspect-square w-full h-52 overflow-hidden relative border-none">
+      <img class="object-cover object-center w-full h-full rounded-t-lg border-none"
+           [src]="artist()?.imageUrl || ''"
+           alt="artist img">
 
-    <div class="absolute text-lg top-0 w-full h-full inset-0 bg-gradient-to-b from-black/80 via-[#121212]/0 font-semibold text-white p-2 py-3">
-      About the artist
+      <div
+        class="absolute text-lg top-0 w-full h-full inset-0 bg-gradient-to-b from-black/80 via-[#121212]/0 font-semibold text-white p-2 py-3">
+        About the artist
+      </div>
+    </picture>
+    <div class="px-4 py-4">
+      <div class="font-bold text-xl mb-2 text-white">{{ artist()?.name }}</div>
+      <p class="text-[#9E9E9E] line-clamp-2">
+        {{ artist()?.genres?.join(', ') }}
+      </p>
     </div>
-  </picture>
-  <div class="px-4 py-4">
-    <div class="font-bold text-xl mb-2 text-white">{{ artist()?.name }}</div>
-    <p class="text-[#9E9E9E] line-clamp-2">
-      {{ artist()?.genres?.join(', ') }}
-    </p>
-  </div>
+  } @else {
+    <div role="status" class="animate-pulse">
+      <div class="flex items-center justify-center w-full h-48 bg-[#121212] rounded">
+        <svg class="w-10 h-10 text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+          <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"/>
+        </svg>
+
+      </div>
+      <div class="px-4 py-4">
+        <div class="h-2.5 bg-zinc-800 rounded-full w-48 mb-4"></div>
+        <div class="h-2 bg-zinc-800 rounded-full max-w-[480px] mb-2.5"></div>
+      </div>
+    </div>
+  }
 </div>

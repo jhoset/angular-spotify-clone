@@ -1,13 +1,13 @@
-<div class="flex items-center gap-5 relative overflow-hidden">
-  <picture class="w-16 h-16 bg-zinc-800 rounded-md shadow-lg overflow-hidden">
+<div class="flex items-center gap-4 relative overflow-hidden">
+  <picture class="w-14 h-14 bg-zinc-800 rounded-md shadow-lg overflow-hidden">
     <img [src]="track()?.imageUrl" [alt]="track()?.name">
   </picture>
 
   <div class="flex flex-col">
-    <h3 class="font-semibold max-w-[100px] text-sm whitespace-nowrap overflow-ellipsis line-clamp-1">
+    <h3 class="font-semibold text-sm overflow-ellipsis line-clamp-1 break-all">
       {{ track()?.name }}
     </h3>
-    <span class="text-xs opacity-80">
+    <span class="text-xs opacity-80 line-clamp-1 break-all">
       {{ track()?.artistNames?.join(', ') }}
     </span>
   </div>

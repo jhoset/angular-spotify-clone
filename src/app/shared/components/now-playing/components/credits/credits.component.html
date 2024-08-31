@@ -1,21 +1,39 @@
 <div class="rounded-lg overflow-hidden shadow-lg flex flex-col bg-[#1F1F1F] select-none p-4 py-5">
   <h3 class="font-semibold text-lg"> Credits </h3>
-  @for (artist of artists(); track artist.artistId) {
-    <div class="flex gap-2 mt-3 items-center">
-      <picture class="aspect-auto rounded-full w-11 h-11 overflow-hidden relative border-none">
-        <img class="object-cover object-center w-full h-full rounded-t-lg border-none"
-             [src]="artist?.smallImageUrl || ''"
-             alt="artist img">
-      </picture>
-      <div>
-        <h4 class="font-semibold"> {{ artist.name }}</h4>
-        <p> {{ (artist.followers | number) + ' followers' }} </p>
-      </div>
+  @if (!isLoading()) {
+    @for (artist of artists(); track artist.artistId) {
+      <div class="flex gap-2 mt-3 items-center">
+        <picture class="aspect-auto rounded-full w-11 h-11 overflow-hidden relative border-none">
+          <img class="object-cover object-center w-full h-full rounded-t-lg border-none"
+               [src]="artist?.smallImageUrl || ''"
+               alt="artist img">
+        </picture>
+        <div>
+          <h4 class="font-semibold"> {{ artist.name }}</h4>
+          <p> {{ (artist.followers | number) + ' followers' }} </p>
+        </div>
 
+      </div>
+    } @empty {
+      <h4 class="font-semibold"> No artist found </h4>
+    }
+  } @else {
+    <div role="status" class="animate-pulse flex gap-2 mt-3 items-center">
+      <div class="w-11 h-11 bg-[#121212] rounded-full flex items-center justify-center">
+        <svg class="w-5 h-5 text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+             viewBox="0 0 20 18">
+          <path
+            d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"/>
+        </svg>
+
+      </div>
+      <div>
+        <div class="h-2.5 bg-zinc-800 rounded-full w-48 mb-3"></div>
+        <div class="h-2 bg-zinc-800 rounded-full max-w-[480px]"></div>
+      </div>
     </div>
-  } @empty {
-    <p> No artist available </p>
   }
+
 
 </div>
 

@@ -8,6 +8,7 @@ import {
 } from "@shared/components/now-playing/components/main-artist-card/main-artist-card.component";
 import {CreditsComponent} from "@shared/components/now-playing/components/credits/credits.component";
 import {NextInQueueComponent} from "@shared/components/now-playing/components/next-in-queue/next-in-queue.component";
+import {SvgIconComponent} from "angular-svg-icon";
 
 @Component({
   selector: 'app-now-playing',
@@ -15,7 +16,8 @@ import {NextInQueueComponent} from "@shared/components/now-playing/components/ne
   imports: [
     MainArtistCardComponent,
     CreditsComponent,
-    NextInQueueComponent
+    NextInQueueComponent,
+    SvgIconComponent
   ],
   templateUrl: './now-playing.component.html',
   styleUrl: './now-playing.component.scss'
@@ -28,15 +30,17 @@ export class NowPlayingComponent {
   public currentTrack = this.dashboardService.currentTrack;
   public artists = signal<ArtistInfo[]>([]);
 
+  public isLoadingArtistData = signal(false);
+
   constructor() {
     effect((onCleanup) => {
-      console.log('TEST')
       if (!this.currentTrack()) return;
+      this.isLoadingArtistData.set(true);
       const artistIds = this.currentTrack()?.artists.map(a => a.id) || [];
       const subscription$ = this.artistsService.getSeveralArtists(artistIds).pipe(
         map(rs => this.filterData(rs.artists))
       ).subscribe(rs => {
-        console.log('rs', rs);
+        this.isLoadingArtistData.set(false);
         this.artists.set(rs)
       })
       onCleanup(() => {
@@ -56,6 +60,11 @@ export class NowPlayingComponent {
     }))
 
     return filterResult;
+  }
+
+  public onCloseView() {
+    console.log('Settting...')
+    this.dashboardService.setDisplayNowPlayingView(false);
   }
 }
 

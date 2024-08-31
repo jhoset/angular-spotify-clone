@@ -1,0 +1,7 @@
+<button [ngClass]="displayNowPlayingView() ? 'text-[#1DB954] opacity-100 after:opacity-100': 'opacity-70 hover:opacity-100'"
+        (click)="onToggleView()"
+        [title]="'Now Playing View'"
+        class="relative transition-all duration-300 after:[''] after:absolute after:left-1/2 after:-translate-x-1/2
+        after:bottom-[-8px] after:w-[4px] after:h-[4px] after:rounded-full after:bg-[#1DB954] after:opacity-0">
+  <svg-icon name="now-playing"/>
+</button>

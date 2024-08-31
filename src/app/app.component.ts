@@ -54,5 +54,7 @@ export class AppComponent {
     this._iconRegistry.addSvgIcon('logo');
     this._iconRegistry.addSvgIcon('github');
     this._iconRegistry.addSvgIcon('logout');
+    this._iconRegistry.addSvgIcon('close');
+    this._iconRegistry.addSvgIcon('img-fallback');
   }
 }
