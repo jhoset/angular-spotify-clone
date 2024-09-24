@@ -1,7 +1,11 @@
 
 This project is the frontend for a Spotify clone, built with the latest version of Angular (v18) & Tailwind CSS. It leverages modern Angular features, including signals for efficient reactivity and change detection. The application provides a user-friendly interface for browsing music, managing playlists, and playing songs.
 
-![image](https://github.com/user-attachments/assets/6dce4e27-c096-4c8d-9097-610013ebec49)
+
+
+https://github.com/user-attachments/assets/cb05bb71-e672-480b-ab6d-69724ebfb9ac
+
+
 
 
 
